@@ -1,0 +1,20 @@
+{
+    "name": "gph-cli",
+    "version": "1.0.0",
+    "description": "An wrapper of graph-interface to cli",
+    "main": "index.js",
+    "repository": "https://github.com/Giancarl021/gph-cli.git",
+    "author": "Gianarlo Fontela da Luz <gian.f.luz@hotmail.com>",
+    "license": "MIT",
+    "bin": {
+        "gph": "bin"
+    },
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "graph-interface": "^0.1.0",
+        "yargs": "^15.3.1"
+    },
+    "devDependencies": {
+        "nexe": "^3.3.3"
+    }
+}
