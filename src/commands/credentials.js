@@ -149,6 +149,15 @@ const operations = {
         sjson.remove();
         keys.remove(key);
 
+        const defaultFile = createFileInterface('data/hash/default');
+
+        if(defaultFile.exists()) {
+            const d = defaultFile.load();
+            if(d === key) {
+                defaultFile.remove();
+            }
+        }
+
         return `Credentials "${key}" removed`;
     },
 
