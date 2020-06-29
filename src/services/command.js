@@ -17,8 +17,13 @@ module.exports = function(command, args, flags) {
             return;
         }
 
-        const result = await commands[command](args, flags);
-        console.log(result.message);
+        let result;
+        try {
+            result = await commands[command](args, flags);
+            console.log(result);
+        } catch(error) {
+            console.log('Error: ' + error.message);
+        }
     }
 
     return {

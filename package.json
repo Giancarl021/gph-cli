@@ -10,7 +10,6 @@
         "gph": "bin"
     },
     "dependencies": {
-        "chalk": "^4.1.0",
         "graph-interface": "^0.1.0",
         "readline-sync": "^1.4.10",
         "yargs": "^15.3.1"
