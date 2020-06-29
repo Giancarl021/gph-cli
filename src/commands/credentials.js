@@ -6,6 +6,9 @@ const capitalize = require('../util/capitalize');
 const createHash = require('../util/hash');
 const createFileInterface = require('../util/file');
 const createSecureJsonInterface = require('../util/sjson');
+const createKeysInterface = require('../util/keys');
+
+const keys = createKeysInterface('data/hash/keys');
 
 const operations = {
     set(args, flags) {
@@ -40,7 +43,7 @@ const operations = {
         }
 
         sjson.save(credentials);
-
+        keys.add(key);
         return 'Credentials created';
     },
 
@@ -60,8 +63,7 @@ const operations = {
 
         const data = sjson.load();
 
-        return '\n' +
-            `Tenant ID: ${data.tenant_id}\n` +
+        return `Tenant ID: ${data.tenant_id}\n` +
             `Client ID: ${data.client_id}\n` +
             `Client Secret: ${data.client_secret}`;
     },
@@ -95,7 +97,7 @@ const operations = {
             },
 
             get() {
-                if(!file.exists()) {
+                if (!file.exists()) {
                     return 'No default credentials is set';
                 }
 
@@ -103,7 +105,7 @@ const operations = {
             },
 
             remove(_, flags) {
-                if(!file.exists()) {
+                if (!file.exists()) {
                     return 'No default credentials is set';
                 }
                 if (!(flags.hasOwnProperty('f') || flags.hasOwnProperty('force'))) {
@@ -132,6 +134,26 @@ const operations = {
         if (!key) {
             throw new Error('No key provided');
         }
+        const hash = createHash(key);
+        const sjson = createSecureJsonInterface(`data/hash/${key}`, hash, true);
+
+        if (!sjson.exists()) {
+            return 'Credentials with this key does not exists';
+        }
+
+        if (!(flags.hasOwnProperty('f') || flags.hasOwnProperty('force'))) {
+            const abort = !keyInYN(`Are you sure you want to remove the credentials "${key}"? `);
+            if (abort) return 'Aborted by user';
+        }
+
+        sjson.remove();
+        keys.remove(key);
+
+        return `Credentials "${key}" removed`;
+    },
+
+    list() {
+        return keys.get();
     }
 };
 
