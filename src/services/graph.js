@@ -1,6 +1,6 @@
 const createGraphInterface = require('graph-interface');
 
-module.exports = async function (credentials, options) {
+module.exports = async function (credentials, version) {
     return await createGraphInterface(credentials, {
         cache: {
             type: 'fs',
@@ -8,6 +8,6 @@ module.exports = async function (credentials, options) {
                 path: 'data/cache'
             }
         },
-        version: options.version
+        version
     });
 }
