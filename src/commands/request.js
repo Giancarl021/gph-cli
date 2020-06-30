@@ -4,6 +4,7 @@ const {
     keyInYN
 } = require('readline-sync');
 const createJsonInterface = require('../util/json');
+const createDirectoryInterface = require('../util/directory');
 const askOptions = require('../util/options');
 
 const operations = {
@@ -42,9 +43,6 @@ const operations = {
 
         request.credentials = question('What are the default credentials to this request? ');
 
-        console.log(request);
-        process.exit(0);
-
         json.save(request);
         return 'Request created';
     },
@@ -64,7 +62,25 @@ const operations = {
 
         const data = json.load();
 
-        return data;
+        return `--{ ${key} }--\n` +
+            `URL${data.type === 'massive' ? ' Pattern' : ''}: ${data.url}\n` +
+            `Type: ${data.type}\n` +
+            `Credentials Used: ${data.credentials || 'None'}` +
+            (Object.keys(data.options).length ? `\nOptions:\n${printObj(data.options, 1)}` : '');
+
+        function printObj(o, deep = 0, _r = '') {
+            let r = _r;
+            const i = new Array(deep * 4).join(' ');
+            for (const key in o) {
+                if (typeof o[key] === 'object') {
+                    r += `${i}${key}:\n${printObj(o[key], deep + 1, r)}`;
+                } else {
+                    r += `${i}${key}: ${o[key]}\n`;
+                }
+            }
+
+            return r;
+        }
     },
 
     remove(args, flags) {
@@ -91,7 +107,10 @@ const operations = {
     },
 
     list() {
-        return keys.get();
+        const dir = createDirectoryInterface('data/requests');
+        return dir.files()
+            .map(request => request.replace(/\.json$/, ''))
+            .join('\n');
     },
 
     import() {
