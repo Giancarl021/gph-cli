@@ -17,6 +17,9 @@ const defaultOptions = {
 };
 
 const options = {
+    token: {
+        save: 'string'
+    },
     unit: {
         ...defaultOptions,
         fields: 'array'
@@ -30,6 +33,7 @@ const options = {
         offset: 'number'
     },
     massive: {
+        values: '!array',
         ...defaultOptions,
         type: '!unit|list',
         binder: '!string',
@@ -108,7 +112,7 @@ function askType(type, query) {
         let arr;
         const toArr = str => str.split(',').map(e => e.trim());
         if (required) {
-            arr = toArr(askUntil(r => r.split(',').length, question, _query));
+            arr = toArr(askUntil(r => r.split(',').filter(e => e).length, question, _query));
         } else {
             arr = toArr(question(_query));
         }

@@ -7,7 +7,6 @@ module.exports = {
             r = callback(...args);
             first = false;
         } while(!validator(r));
-    
         return r;
     },
     

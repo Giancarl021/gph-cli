@@ -16,6 +16,12 @@ const {
 } = require('../util/until');
 
 const credentialsCommand = require('./credentials');
+const reqCommand = {
+    token: require('./token'),
+    unit: require('./unit'),
+    list: require('./list'),
+    massive: require('./massive')
+};
 
 const operations = {
     set(args, flags) {
@@ -35,7 +41,7 @@ const operations = {
         const request = {};
 
         let index, first;
-        const types = ['unit', 'list', 'massive'];
+        const types = ['unit', 'list', 'massive', 'token'];
 
         index = keyInSelect(types, 'What type of request?');
         if (index === -1) {
@@ -113,7 +119,7 @@ const operations = {
 
         const data = json.load();
 
-        if(data.credentials.includes('@')) {
+        if (data.credentials.includes('@')) {
             try {
                 credentialsCommand(['remove', `req@${key}`], {
                     f: true
@@ -226,14 +232,49 @@ const operations = {
             delete data.credentials;
         }
         json.save(data);
+    },
+
+    async exec(args, flags) {
+        const [key] = args;
+        if (!key) {
+            throw new Error('No key provided');
+        }
+
+        const json = createJsonInterface(`data/requests/${key}`);
+        if (!json.exists()) {
+            throw new Error('This request does not exists');
+        }
+
+        const {
+            type,
+            options,
+            url,
+            credentials
+        } = json.load();
+
+        const cmd = [url];
+        if(type === 'massive') {
+            cmd.push(options.values);
+            delete options.values;
+        }
+        
+        const _flags = {
+            ...options,
+            credentials,
+            ...flags
+        };
+
+        console.log(cmd, _flags);
+
+        return await reqCommand[type](cmd, _flags);
     }
 };
 
-module.exports = function (args, flags) {
+module.exports = async function (args, flags) {
     const index = args.shift();
     const operation = operations[index];
     if (!operation) {
         return `Operation "${index || ''}" does not exists`;
     }
-    return operation(args, flags);
+    return await operation(args, flags);
 }
