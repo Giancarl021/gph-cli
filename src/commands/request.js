@@ -264,8 +264,6 @@ const operations = {
             ...flags
         };
 
-        console.log(cmd, _flags);
-
         return await reqCommand[type](cmd, _flags);
     }
 };
