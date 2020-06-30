@@ -40,7 +40,7 @@ const operations = {
 
         askOptions(request);
 
-        request.credentials = question('What are the default credentials to this request? (Blank to none) ');
+        request.credentials = question('What are the default credentials to this request? ');
 
         console.log(request);
         process.exit(0);
