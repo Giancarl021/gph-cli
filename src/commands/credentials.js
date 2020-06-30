@@ -18,6 +18,10 @@ const operations = {
             throw new Error('No key provided');
         }
 
+        if(key.includes('/')) {
+            throw new Error('Invalid key name');
+        }
+
         const hash = createHash(key);
         const sjson = createSecureJsonInterface(`data/hash/${key}`, hash, true);
 

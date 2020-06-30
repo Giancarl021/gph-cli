@@ -15,6 +15,8 @@ module.exports = function (key = 'default') {
 
     const hash = createHash(_key);
     const sjson = createSecureJsonInterface(`data/hash/${_key}`, hash, true);
-
+    if(!sjson.exists()) {
+        throw new Error(`Credentials "${key}" does not exists`);
+    }
     return sjson.load();
 }

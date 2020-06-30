@@ -1,12 +1,10 @@
-const { command } = require("yargs");
-
-const commandPath = '../commands/';
-
 const commands = {
-    credentials: require(commandPath + 'credentials'),
-    unit: require(commandPath + 'unit'),
-    list: require(commandPath + 'list'),
-    massive: require(commandPath + 'massive')
+    credentials: require('../commands/credentials'),
+    token: require('../commands/token'),
+    unit: require('../commands/unit'),
+    list: require('../commands/list'),
+    massive: require('../commands/massive'),
+    request: require('../commands/request')
 };
 
 module.exports = function(command, args, flags) {

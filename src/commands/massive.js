@@ -63,5 +63,7 @@ module.exports = async function (args, flags) {
         type: flags.type
     });
 
+    await graph.close();
+
     return flags.print === false ? '' : response;
 }

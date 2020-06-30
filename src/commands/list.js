@@ -23,5 +23,7 @@ module.exports = async function (args, flags) {
         offset: flags.offset || null
     });
 
+    await graph.close();
+
     return flags.print === false ? '' : response;
 }
