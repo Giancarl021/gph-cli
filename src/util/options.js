@@ -1,3 +1,4 @@
+const safeEval = require('safe-eval');
 const {
     question,
     keyInSelect
@@ -21,12 +22,12 @@ const options = {
         fields: 'array'
     },
     list: {
-        // ...defaultOptions,
+        ...defaultOptions,
         map: 'function',
         filter: 'function',
         reduce: 'function',
-        // limit: 'number',
-        // offset: 'number'
+        limit: 'number',
+        offset: 'number'
     },
     massive: {
         ...defaultOptions,
@@ -87,7 +88,8 @@ function askType(type, query) {
     } else if (_type === 'function') {
         const builder = query => {
             const fn = question(query);
-            return Function('return ' + fn)();
+            if(!fn) return null;
+            return safeEval(fn);
         };
 
         let fn;
@@ -98,18 +100,38 @@ function askType(type, query) {
             fn = tryUntil(null, builder, _query);
         }
 
-        if(!fn) return null;
+        if (!fn) return null;
 
         return fn.toString();
 
-    } else if(_type === 'string') {
-        let r;
-        let first = true;
-        do {
-            if (!first) console.log('Invalid input!');
-            r = question(_query);
-            first = false;
-        } while (!r);
-        return r;
+    } else if (_type === 'array') {
+        let arr;
+        const toArr = str => str.split(',').map(e => e.trim());
+        if (required) {
+            arr = toArr(askUntil(r => r.split(',').length, question, _query));
+        } else {
+            arr = toArr(question(_query));
+        }
+
+        return arr.length ? arr.join(',') : null;
+
+    } else if (_type === 'number') {
+        let n;
+        if (required) {
+            n = parseInt(askUntil(r => !isNaN(parseInt(r)), question, _query));
+        } else {
+            n = parseInt(question(_query));
+        }
+
+        return n || null;
+
+    } else {
+        let str;
+        if (required) {
+            str = askUntil(r => !!r, question, _query);
+        } else {
+            str = question(_query);
+        }
+        return str || null;
     }
 }

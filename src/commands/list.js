@@ -1,3 +1,4 @@
+const safeEval = require('safe-eval');
 const getGraphInstance = require('../services/graph');
 const getCredentials = require('../util/credentials');
 const {
@@ -16,9 +17,9 @@ module.exports = async function (args, flags) {
         },
         method: flags.method ? String(flags.method).toUpperCase() : 'GET',
         saveOn: flags.save ? flags.save.replace(/~/g, homedir()) : null,
-        filter: typeof flags.filter === 'string' ? Function('return ' + flags.filter)() : null,
-        map: typeof flags.map === 'string' ? Function('return ' + flags.map)() : null,
-        reduce: typeof flags.filter === 'string' ? Function('return ' + flags.reduce)() : null,
+        filter: typeof flags.filter === 'string' ? safeEval(flags.filter) : null,
+        map: typeof flags.map === 'string' ? safeEval(flags.map) : null,
+        reduce: typeof flags.filter === 'string' ? safeEval(flags.reduce) : null,
         limit: flags.limit || null,
         offset: flags.offset || null
     });
