@@ -10,6 +10,8 @@ const createKeysInterface = require('../util/keys');
 
 const keys = createKeysInterface('data/hash/keys');
 
+let innerCall;
+
 const operations = {
     set(args, flags) {
         const [key] = args;
@@ -18,7 +20,7 @@ const operations = {
             throw new Error('No key provided');
         }
 
-        if(key.includes('/')) {
+        if (key.includes('/') || (!innerCall && (key.includes('@')))) {
             throw new Error('Invalid key name');
         }
 
@@ -155,9 +157,9 @@ const operations = {
 
         const defaultFile = createFileInterface('data/hash/default');
 
-        if(defaultFile.exists()) {
+        if (defaultFile.exists()) {
             const d = defaultFile.load();
-            if(d === key) {
+            if (d === key) {
                 defaultFile.remove();
             }
         }
@@ -170,7 +172,8 @@ const operations = {
     }
 };
 
-module.exports = function (args, flags) {
+module.exports = function (args, flags, _innerCall = false) {
+    innerCall = _innerCall;
     const index = args.shift();
     const operation = operations[index];
     if (!operation) {

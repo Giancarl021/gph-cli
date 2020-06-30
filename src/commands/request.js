@@ -111,6 +111,18 @@ const operations = {
             if (abort) return 'Aborted by user';
         }
 
+        const data = json.load();
+
+        if(data.credentials.includes('@')) {
+            try {
+                credentialsCommand(['remove', `req@${key}`], {
+                    f: true
+                }, true);
+            } catch (err) {
+                throw new Error('Credentials deletion: ' + err.message);
+            }
+        }
+
         json.remove();
 
         return `Request "${key}" removed`;
@@ -132,7 +144,7 @@ const operations = {
 
         let json;
 
-        if(!/\.(gphr|gphrc)$/.test(dest)) {
+        if (!/\.(gphr|gphrc)$/.test(dest)) {
             throw new Error('Invalid input path');
         }
 
@@ -148,13 +160,27 @@ const operations = {
 
         const data = json.load();
 
-        if(data.credentials) {
+        if (data.credentials) {
+            const credentials = {
+                'tenant-id': data.credentials.tenant_id,
+                'client-id': data.credentials.client_id,
+                'client-secret': data.credentials.client_secret,
+            };
             try {
-
-            } catch(err) {
+                credentialsCommand(['set', `req@${name}`], {
+                    ...credentials,
+                    force: true
+                }, true);
+            } catch (err) {
                 throw new Error('Creation of credentials: ' + err.message);
             }
+
+            data.credentials = `req@${name}`;
         }
+
+        const req = createJsonInterface(`data/requests/${name}`);
+
+        req.save(data);
 
         return `Request "${name}" successfully imported`;
     },
@@ -192,7 +218,7 @@ const operations = {
         if (flags.c || flags.credentials) {
             const hash = createHash(data.credentials);
             const sjson = createSecureJsonInterface(`data/hash/${data.credentials}`, hash, true);
-            if(!sjson.exists()) {
+            if (!sjson.exists()) {
                 throw new Error(`Credentials with key "${key}" does not exists`);
             }
             data.credentials = sjson.load();
