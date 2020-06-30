@@ -20,6 +20,10 @@
                         "alias": "client-secret",
                         "description": "Client Secret",
                         "value": "<client-secret>"
+                    },
+                    "f": {
+                        "alias": "force",
+                        "description": "Don't ask nothing, just do it"
                     }
                 }
             },
