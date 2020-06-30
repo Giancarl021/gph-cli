@@ -15,6 +15,8 @@ const {
     askUntil
 } = require('../util/until');
 
+const credentialsCommand = require('./credentials');
+
 const operations = {
     set(args, flags) {
         const [key] = args;
@@ -121,8 +123,40 @@ const operations = {
             .join('\n');
     },
 
-    import() {
+    import(args, flags) {
+        const [dest] = args;
+        const name = args[1] || dest.split('/').pop().replace(/\.(gphr|gphrc)$/, '');
+        if (!dest) {
+            throw new Error('No destination provided');
+        }
 
+        let json;
+
+        if(!/\.(gphr|gphrc)$/.test(dest)) {
+            throw new Error('Invalid input path');
+        }
+
+        if (/\.gphrc$/.test(dest)) {
+            let password = flags.p || flags.password;
+            if (!password) {
+                password = createHash(askUntil(p => !!p, question, 'Insert the file password to import the request: '));
+            }
+            json = createSecureJsonInterface(dest.replace('~', homedir()), password);
+        } else {
+            json = createJsonInterface(dest.replace('~', homedir()), false);
+        }
+
+        const data = json.load();
+
+        if(data.credentials) {
+            try {
+
+            } catch(err) {
+                throw new Error('Creation of credentials: ' + err.message);
+            }
+        }
+
+        return `Request "${name}" successfully imported`;
     },
 
     export (args, flags) {
