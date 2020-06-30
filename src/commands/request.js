@@ -3,25 +3,12 @@ const {
     keyInSelect,
     keyInYN
 } = require('readline-sync');
-const {
-    homedir
-} = require('os');
-const createHash = require('../util/hash');
+
 const createJsonInterface = require('../util/json');
-const createSecureJsonInterface = require('../util/sjson');
 const createDirectoryInterface = require('../util/directory');
 const askOptions = require('../util/options');
-const {
-    askUntil
-} = require('../util/until');
 
 const credentialsCommand = require('./credentials');
-const reqCommand = {
-    token: require('./token'),
-    unit: require('./unit'),
-    list: require('./list'),
-    massive: require('./massive')
-};
 
 const operations = {
     set(args, flags) {
@@ -139,132 +126,6 @@ const operations = {
         return dir.files()
             .map(request => request.replace(/\.json$/, ''))
             .join('\n');
-    },
-
-    import(args, flags) {
-        const [dest] = args;
-        const name = args[1] || dest.split('/').pop().replace(/\.(gphr|gphrc)$/, '');
-        if (!dest) {
-            throw new Error('No destination provided');
-        }
-
-        let json;
-
-        if (!/\.(gphr|gphrc)$/.test(dest)) {
-            throw new Error('Invalid input path');
-        }
-
-        if (/\.gphrc$/.test(dest)) {
-            let password = flags.p || flags.password;
-            if (!password) {
-                password = createHash(askUntil(p => !!p, question, 'Insert the file password to import the request: '));
-            }
-            json = createSecureJsonInterface(dest.replace('~', homedir()), password);
-        } else {
-            json = createJsonInterface(dest.replace('~', homedir()), false);
-        }
-
-        const data = json.load();
-
-        if (data.credentials) {
-            const credentials = {
-                'tenant-id': data.credentials.tenant_id,
-                'client-id': data.credentials.client_id,
-                'client-secret': data.credentials.client_secret,
-            };
-            try {
-                credentialsCommand(['set', `req@${name}`], {
-                    ...credentials,
-                    force: true
-                }, true);
-            } catch (err) {
-                throw new Error('Creation of credentials: ' + err.message);
-            }
-
-            data.credentials = `req@${name}`;
-        }
-
-        const req = createJsonInterface(`data/requests/${name}`);
-
-        req.save(data);
-
-        return `Request "${name}" successfully imported`;
-    },
-
-    export (args, flags) {
-        const [key, dest] = args;
-        const credentials = flags.c || flags.credentials;
-        const lock = (flags.l || flags.lock) === undefined ? (credentials ? true : false) : (flags.l || flags.lock);
-        if (!key) {
-            throw new Error('No key provided');
-        }
-        if (!dest) {
-            throw new Error('No destination provided');
-        }
-
-        const req = createJsonInterface(`data/requests/${key}`);
-
-        if (!req.exists()) {
-            throw new Error('This requests does not exists');
-        }
-
-        let json;
-
-        if (lock || (credentials && lock)) {
-            let password = flags.p || flags.password;
-            if (!password) {
-                password = createHash(askUntil(p => !!p, question, 'Insert a new password to the exported file: '));
-            }
-            json = createSecureJsonInterface(`${dest.replace('~', homedir())}/${key}.gphrc`, password);
-        } else {
-            json = createJsonInterface(`${dest.replace('~', homedir())}/${key}.gphr`, false);
-        }
-
-        const data = req.load();
-        if (flags.c || flags.credentials) {
-            const hash = createHash(data.credentials);
-            const sjson = createSecureJsonInterface(`data/hash/${data.credentials}`, hash, true);
-            if (!sjson.exists()) {
-                throw new Error(`Credentials with key "${key}" does not exists`);
-            }
-            data.credentials = sjson.load();
-        } else {
-            delete data.credentials;
-        }
-        json.save(data);
-    },
-
-    async exec(args, flags) {
-        const [key] = args;
-        if (!key) {
-            throw new Error('No key provided');
-        }
-
-        const json = createJsonInterface(`data/requests/${key}`);
-        if (!json.exists()) {
-            throw new Error('This request does not exists');
-        }
-
-        const {
-            type,
-            options,
-            url,
-            credentials
-        } = json.load();
-
-        const cmd = [url];
-        if(type === 'massive') {
-            cmd.push(options.values);
-            delete options.values;
-        }
-        
-        const _flags = {
-            ...options,
-            credentials,
-            ...flags
-        };
-
-        return await reqCommand[type](cmd, _flags);
     }
 };
 

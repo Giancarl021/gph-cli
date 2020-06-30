@@ -4,7 +4,10 @@ const commands = {
     unit: require('../commands/unit'),
     list: require('../commands/list'),
     massive: require('../commands/massive'),
-    request: require('../commands/request')
+    request: require('../commands/request'),
+    export: require('../commands/export'),
+    import: require('../commands/import'),
+    exec: require('../commands/exec')
 };
 
 module.exports = function(command, args, flags) {
