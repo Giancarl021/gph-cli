@@ -1,7 +1,7 @@
 const createFileHandler = require('./file');
 
-module.exports = function (path) {
-    const extension = /\.json$/.test(path) ? '' : '.json';
+module.exports = function (path, verifyExtension = true) {
+    const extension = verifyExtension ? /\.json$/.test(path) ? '' : '.json' : '';
     const file = createFileHandler(`${path}${extension}`);
 
     function save(data) {
