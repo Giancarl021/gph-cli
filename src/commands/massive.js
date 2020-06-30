@@ -8,16 +8,47 @@ module.exports = async function (args, flags) {
     const credentials = getCredentials(flags.c || flags.credentials);
     const graph = await getGraphInstance(credentials, flags.version || 'v1.0');
 
-    const [url, _values] = args;
-    
-    const values = String(_values).split(',').map(e => e.trim());
+    const [urlPattern, _values] = args;
 
-    /* TODO
-     * Sanitize and validate values and required flags
-    */
+    if (!urlPattern) {
+        throw new Error('URL Pattern must be an string');
+    }
+
+    if (!_values) {
+        throw new Error('Values must be an string');
+    }
+
+    if(!flags.type) {
+        throw new Error('Flag "--type" is required');
+    }
+
+    if(!flags.binder) {
+        throw new Error('Flag "--binder" is required');
+    }
+
+    const matches = [...urlPattern.matchAll(/{[^{}]*?}/g)].map(e => e[0].replace(/({|})*/g, ''));
+
+    const values = {};
+    String(_values)
+        .split(';')
+        .forEach(e => {
+            const [key, value] = e.trim().split(':');
+            if (!value) {
+                if (matches.length === 1 && key) {
+                    return values[matches[0]] = key.split(',').map(e => e.trim());
+                } else {
+                    throw new Error('Values shorthand only possible when you have only one variable on the URL Pattern');
+                }
+            }
+            values[key] = value.split(',').map(e => e.trim());
+        });
+
+    if(!Object.keys(values).length) {
+        throw new Error('Invalid values parameter');
+    }
 
 
-    const response = await graph.massive(url, values, {
+    const response = await graph.massive(urlPattern, values, {
         cache: {
             expiresIn: flags.cache || null
         },
