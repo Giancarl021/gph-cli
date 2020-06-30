@@ -1,0 +1,78 @@
+{
+    "credentials": {
+        "description": "Manage saved credentials on the local registry",
+        "operations": {
+            "set": {
+                "description": "Register new credentials",
+                "args": ["<credentials-name>"],
+                "flags": {
+                    "t": {
+                        "alias": "tenant-id",
+                        "description": "Tenant ID",
+                        "value": "<tenant-id>"
+                    },
+                    "c": {
+                        "alias": "client-id",
+                        "description": "Client ID",
+                        "value": "<client-id>"
+                    },
+                    "s": {
+                        "alias": "client-secret",
+                        "description": "Client Secret",
+                        "value": "<client-secret>"
+                    }
+                }
+            },
+            "get": {
+                "description": "Print credentails value",
+                "args": ["<credentials-name>"]
+            },
+            "list": "List all current saved credentials",
+            "remove": {
+                "description": "Delete credentials from registry",
+                "args": ["<credentials-name>"],
+                "flags": {
+                    "f": {
+                        "alias": "force",
+                        "description": "Don't ask nothing, just do it"
+                    }
+                }
+            },
+            "default": {
+
+            }
+        }
+    },
+    "token": {
+        "description": "",
+        "": ""
+    },
+    "unit": {
+        "description": "",
+        "": ""
+    },
+    "list": {
+        "description": "",
+        "": ""
+    },
+    "massive": {
+        "description": "",
+        "": ""
+    },
+    "request": {
+        "description": "",
+        "": ""
+    },
+    "import": {
+        "description": "",
+        "": ""
+    },
+    "export": {
+        "description": "",
+        "": ""
+    },
+    "exec": {
+        "description": "",
+        "": ""
+    }
+}

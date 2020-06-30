@@ -6,7 +6,7 @@ async function main() {
     const env = createEnvironment();
     env.build();
 
-    const command = String(argv._.shift()).toLowerCase();    
+    const command = argv._[0] ? String(argv._.shift()).toLowerCase() : null;
     const operations = argv._.map(String);
     delete argv._;
     delete argv['$0'];
