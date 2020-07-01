@@ -1,6 +1,9 @@
 # Local Files
 data/
-build/
+build/*
+!build/*.ps1
+!build/*.cmd
+!build/icon.*
 
 # Logs
 logs
