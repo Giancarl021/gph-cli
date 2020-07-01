@@ -20,20 +20,4 @@ gph -?
 
 ## Commands
 
-### credentials
-
-### token
-
-### unit
-
-### list
-
-### massive
-
-### request
-
-### import
-
-### export
-
-### exec
+<@>

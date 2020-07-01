@@ -10,7 +10,8 @@
         "gph": "bin"
     },
     "scripts": {
-        "build": "node build.js"
+        "build": "node build.js",
+        "build-docs": "node readme.js"
     },
     "dependencies": {
         "graph-interface": "^0.1.0",
