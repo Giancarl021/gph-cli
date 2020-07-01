@@ -43,7 +43,29 @@
                 }
             },
             "default": {
-
+                "description": "Manage the default credentials used in requests",
+                "operations": {
+                    "get": "Print the key",
+                    "set": {
+                        "description": "Set the key",
+                        "args": ["<credentials-key>"],
+                        "flags": {
+                            "f": {
+                                "alias": "force",
+                                "description": "Don't ask nothing, just do it"
+                            }
+                        }
+                    },
+                    "remove": {
+                        "description": "Delete the key",
+                        "flags": {
+                            "f": {
+                                "alias": "force",
+                                "description": "Don't ask nothing, just do it"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
