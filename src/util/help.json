@@ -221,15 +221,34 @@
         "": ""
     },
     "import": {
-        "description": "",
-        "": ""
+        "description": "Import an .gphr or .gphrc request file",
+        "args": ["<path to file>"],
+        "flags": {
+            "p": {
+                "alias": "password",
+                "description": "In-line import and decrypt an .gphrc file with the file password"
+            }
+        }
     },
     "export": {
-        "description": "",
-        "": ""
+        "description": "Export an .gphr or .gphrc request file",
+        "args": ["<request name>", "<path to file>"],
+        "flags": {
+            "c": {
+                "alias": "credentials",
+                "description": "Set an stored credentials to bind with the request. By default set the flag \"lock\" to true"
+            },
+            "lock": {
+                "description": "Creates an password protection on the exported file"
+            },
+            "no-lock": {
+                "description": "Creates the exported file without password protection"
+            }
+        }
     },
     "exec": {
         "description": "Execute an stored request",
+        "args": ["<request name>"],
         "flags":  "All the flags of the request type will overwrite the request options"
     }
 }

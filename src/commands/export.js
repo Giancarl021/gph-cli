@@ -14,7 +14,7 @@ const {
 module.exports = function (args, flags) {
     const [key, dest] = args;
     const credentials = flags.c || flags.credentials;
-    const lock = (flags.l || flags.lock) === undefined ? (credentials ? true : false) : (flags.l || flags.lock);
+    const lock = flags.lock === undefined ? (credentials ? true : false) : flags.lock;
     if (!key) {
         throw new Error('No key provided');
     }
