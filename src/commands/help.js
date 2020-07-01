@@ -5,7 +5,13 @@ module.exports = function (args) {
     try {
         info = navigate(data, [...args]);
     } catch (err) {
-        return 'Error: ' + err.message;
+        return 'Error: Command not founded';
+    }
+
+    if (info === data) {
+        return `--{ gph }--\n` +
+            'Description: An graph-interface wrapper to cli, that make easy to communicate to your Microsoft Tenant.\n' +
+            `Operations:\n${parseOperations(info)}`;
     }
 
     const shorthand = typeof info === 'string';
@@ -42,8 +48,8 @@ function parseOperations(operations) {
 
 function parseFlags(flags) {
     const r = [];
-    if(!flags) return '';
-    for(const key in flags) {
+    if (!flags) return '';
+    for (const key in flags) {
         const flag = flags[key];
         r.push(`    ${parseKey(flag, key) + (flag.required ? ' [REQUIRED]' :'')}: ${flag.description || 'No description'}${flag.value ? '\n      Value: ' + flag.value : ''}`);
     }
@@ -53,7 +59,7 @@ function parseFlags(flags) {
     function parseKey(o, key) {
         let r = dash(key);
 
-        if(o.alias) {
+        if (o.alias) {
             r += ' | ' + dash(o.alias);
         }
 
