@@ -103,6 +103,9 @@
                 "description": "Truncate the response to length of 2000 or specified value",
                 "value": "null | <length>"
             },
+            "no-print": {
+                "description": "Don't show the response on terminal"
+            },
             "fields": {
                 "description": "Filter what fields in the response will return",
                 "value": "<field[,field[,...]]>"
@@ -134,6 +137,9 @@
             "truncate": {
                 "description": "Truncate the response to length of 2000 or specified value",
                 "value": "null | <length>"
+            },
+            "no-print": {
+                "description": "Don't show the response on terminal"
             },
             "map": {
                 "description": "Map the response array before return",
@@ -183,6 +189,9 @@
                 "description": "Truncate the response to length of 2000 or specified value",
                 "value": "null | <length>"
             },
+            "no-print": {
+                "description": "Don't show the response on terminal"
+            },
             "binder": {
                 "description": "The key present in the values parameter to be the key pattern of the response",
                 "value": "<key>",
@@ -192,6 +201,18 @@
                 "description": "The type of the requests of the batch",
                 "value": "unit | list",
                 "required": true
+            },
+            "async": {
+                "description": "If the batch requests will be made in async mode or in linear mode",
+                "value": "true | false"
+            },
+            "attempts": {
+                "description": "The number of failed attempts before crash",
+                "value": "<maximum failed attemps>"
+            },
+            "requests": {
+                "description": "The quantity of batch requests made at the same time in async mode",
+                "value": "<quantity>"
             }
         }
     },
