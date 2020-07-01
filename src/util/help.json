@@ -79,16 +79,79 @@
         }
     },
     "unit": {
-        "description": "",
-        "": ""
+        "description": "Returns unitary data (without pagination)",
+        "flags": {
+            "c": {
+                "alias": "credentials",
+                "description": "The credentials used in the request"
+            },
+            "version": {
+                "description": "The Graph API version"
+            },
+            "method": {
+                "description": "HTTP Method",
+                "value": "GET | POST | PUT | DELETE"
+            },
+            "cache": {
+                "description": "Time To Live of cache in this specific request",
+                "value": "<seconds>"
+            },
+            "save": {
+                "description": "The directory to save the response"
+            },
+            "fields": {
+                "description": "Filter what fields in the response will return",
+                "value": "<field[,field[,...]]>"
+            }
+        }
     },
     "list": {
-        "description": "",
-        "": ""
+        "description": "Returns paginated data",
+        "args": ["<url>"],
+        "flags": {
+            "c": {
+                "alias": "credentials",
+                "description": "The credentials used in the request"
+            },
+            "version": {
+                "description": "The Graph API version"
+            },
+            "method": {
+                "description": "HTTP Method",
+                "value": "GET | POST | PUT | DELETE"
+            },
+            "cache": {
+                "description": "Time To Live of cache in this specific request",
+                "value": "<seconds>"
+            },
+            "save": {
+                "description": "The directory to save the response"
+            }
+        }
     },
     "massive": {
-        "description": "",
-        "": ""
+        "description": "Returns batch data",
+        "args": ["<url pattern>", "<foo:value[,value[,...]];bar:value[,value[,...]>"],
+        "flags": {
+            "c": {
+                "alias": "credentials",
+                "description": "The credentials used in the request"
+            },
+            "version": {
+                "description": "The Graph API version"
+            },
+            "method": {
+                "description": "HTTP Method",
+                "value": "GET | POST | PUT | DELETE"
+            },
+            "cache": {
+                "description": "Time To Live of cache in this specific request",
+                "value": "<seconds>"
+            },
+            "save": {
+                "description": "The directory to save the response"
+            }
+        }
     },
     "request": {
         "description": "",
