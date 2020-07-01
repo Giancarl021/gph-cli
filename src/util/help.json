@@ -217,8 +217,34 @@
         }
     },
     "request": {
-        "description": "",
-        "": ""
+        "description": "Manages the stored requests",
+        "operations": {
+            "get": {
+                "description": "Print the request content",
+                "args": ["<request name>"]
+            },
+            "set": {
+                "description": "Create an new request",
+                "args": ["<request name>"],
+                "flags": {
+                    "f": {
+                        "alias": "force",
+                        "description": "Don't ask nothing, just do it"
+                    }
+                }
+            },
+            "list": "List all current stored requests",
+            "remove": {
+                "description": "Delete an request",
+                "args": ["<request name>"],
+                "flags": {
+                    "f": {
+                        "alias": "force",
+                        "description": "Don't ask nothing, just do it"
+                    }
+                }
+            }
+        }
     },
     "import": {
         "description": "Import an .gphr or .gphrc request file",
