@@ -3,6 +3,7 @@ const getCredentials = require('../util/credentials');
 const {
     homedir
 } = require('os');
+const truncate = require('../util/truncate');
 
 module.exports = async function (args, flags) {
     const credentials = getCredentials(flags.c || flags.credentials);
@@ -21,5 +22,5 @@ module.exports = async function (args, flags) {
 
     await graph.close();
 
-    return flags.print === false ? '' : response;
+    return flags.print === false ? '' : truncate(response, flags.truncate);
 }

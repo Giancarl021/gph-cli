@@ -1,6 +1,7 @@
 const safeEval = require('safe-eval');
 const getGraphInstance = require('../services/graph');
 const getCredentials = require('../util/credentials');
+const truncate = require('../util/truncate');
 const {
     homedir
 } = require('os');
@@ -26,5 +27,5 @@ module.exports = async function (args, flags) {
 
     await graph.close();
 
-    return flags.print === false ? '' : response;
+    return flags.print === false ? '' : truncate(response, flags.truncate);
 }
