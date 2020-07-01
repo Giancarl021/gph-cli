@@ -48,13 +48,7 @@
                     "get": "Print the key",
                     "set": {
                         "description": "Set the key",
-                        "args": ["<credentials-key>"],
-                        "flags": {
-                            "f": {
-                                "alias": "force",
-                                "description": "Don't ask nothing, just do it"
-                            }
-                        }
+                        "args": ["<credentials-key>"]
                     },
                     "remove": {
                         "description": "Delete the key",
