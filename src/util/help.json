@@ -99,6 +99,10 @@
             "save": {
                 "description": "The directory to save the response"
             },
+            "truncate": {
+                "description": "Truncate the response to length of 2000 or specified value",
+                "value": "null | <length>"
+            },
             "fields": {
                 "description": "Filter what fields in the response will return",
                 "value": "<field[,field[,...]]>"
@@ -126,6 +130,30 @@
             },
             "save": {
                 "description": "The directory to save the response"
+            },
+            "truncate": {
+                "description": "Truncate the response to length of 2000 or specified value",
+                "value": "null | <length>"
+            },
+            "map": {
+                "description": "Map the response array before return",
+                "value": "<JavaScript function>"
+            },
+            "filter": {
+                "description": "Filter the response array before return",
+                "value": "<JavaScript function>"
+            },
+            "reduce": {
+                "description": "Convert all the objects in the response into one accumulator", 
+                "value": "<JavaScript function>"
+            },
+            "limit": {
+                "description": "The maximum of pages retrieved",
+                "value": "<integer>"
+            },
+            "offset": {
+                "description": "The first page number to start retrieving data",
+                "value": "<integer>"
             }
         }
     },
@@ -150,6 +178,20 @@
             },
             "save": {
                 "description": "The directory to save the response"
+            },
+            "truncate": {
+                "description": "Truncate the response to length of 2000 or specified value",
+                "value": "null | <length>"
+            },
+            "binder": {
+                "description": "The key present in the values parameter to be the key pattern of the response",
+                "value": "<key>",
+                "required": true
+            },
+            "type": {
+                "description": "The type of the requests of the batch",
+                "value": "unit | list",
+                "required": true
             }
         }
     },

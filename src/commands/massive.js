@@ -19,12 +19,8 @@ module.exports = async function (args, flags) {
         throw new Error('Values must be an string');
     }
 
-    if(!flags.type) {
+    if (!flags.type) {
         throw new Error('Flag "--type" is required');
-    }
-
-    if(!flags.binder) {
-        throw new Error('Flag "--binder" is required');
     }
 
     const matches = [...urlPattern.matchAll(/{[^{}]*?}/g)].map(e => e[0].replace(/({|})*/g, ''));
@@ -36,7 +32,9 @@ module.exports = async function (args, flags) {
             const [key, value] = e.trim().split(':');
             if (!value) {
                 if (matches.length === 1 && key) {
-                    return values[matches[0]] = key.split(',').map(e => e.trim());
+                    flags.binder = matches[0];
+                    values[matches[0]] = key.split(',').map(e => e.trim());
+                    return;
                 } else {
                     throw new Error('Values shorthand only possible when you have only one variable on the URL Pattern');
                 }
@@ -44,7 +42,11 @@ module.exports = async function (args, flags) {
             values[key] = value.split(',').map(e => e.trim());
         });
 
-    if(!Object.keys(values).length) {
+    if (!flags.binder) {
+        throw new Error('Flag "--binder" is required');
+    }
+
+    if (!Object.keys(values).length) {
         throw new Error('Invalid values parameter');
     }
 

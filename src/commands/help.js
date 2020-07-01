@@ -46,7 +46,7 @@ function parseFlags(flags) {
     if (!flags) return '';
     for (const key in flags) {
         const flag = flags[key];
-        r.push(`    ${parseKey(flag, key) + (flag.required ? ' [REQUIRED]' :'')}: ${flag.description || 'No description'}${flag.value ? '\n      Value: ' + flag.value : ''}`);
+        r.push(`    ${parseKey(flag, key) + (flag.required ? ' [REQUIRED]' :'')}: ${flag.description || 'No description'}${flag.value ? '\n      * Value: ' + flag.value : ''}`);
     }
 
     return r.join('\n');
