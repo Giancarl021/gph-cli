@@ -229,7 +229,7 @@
         "": ""
     },
     "exec": {
-        "description": "",
-        "": ""
+        "description": "Execute an stored request",
+        "flags":  "All the flags of the request type will overwrite the request options"
     }
 }

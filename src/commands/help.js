@@ -43,6 +43,9 @@ function parseOperations(operations) {
 
 function parseFlags(flags) {
     const r = [];
+    if(typeof flags === 'string') {
+        return `    * ${flags}`;
+    }
     if (!flags) return '';
     for (const key in flags) {
         const flag = flags[key];
