@@ -92,11 +92,6 @@ const operations = {
                     return 'Credentials with this key does not exists';
                 }
 
-                if (file.exists() && !(flags.hasOwnProperty('f') || flags.hasOwnProperty('force'))) {
-                    const abort = !keyInYN('The default credentials is already set, do you want to overwrite? ');
-                    if (abort) return 'Aborted by user';
-                }
-
                 file.save(key);
 
                 return `Saved "${key}" as default credentials`;
