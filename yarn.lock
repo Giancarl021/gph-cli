@@ -1104,10 +1104,10 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
   integrity sha1-TK+tdrxi8C+gObL5Tpo906ORpyU=
 
-graph-interface@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/graph-interface/-/graph-interface-0.1.0.tgz#bb22db5d8f6c7fd1d93f792617cdf449ce8c29ad"
-  integrity sha512-WCLbyW6JBC6CNqeVi3mDvgqLyLoHw7MzR68TKdNsqGS4QIhbyIL6FTDg+1IXdAASYHzfK2dbmDKjNY3ZxiJMIA==
+graph-interface@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/graph-interface/-/graph-interface-0.1.4.tgz#1cd7079c0e7bd01b9889a998247f0b03f51da4b7"
+  integrity sha512-U1Y92iFEMQeabFRYhisQuo26es8jgruEomZ7tMnTv1ClApmi7v3a2ejgAfZu5n0UwbQcHFwumYhLr75UAlAE/Q==
   dependencies:
     redis "^3.0.2"
     request "^2.88.2"
