@@ -13,7 +13,7 @@ function replacer() {
             const i = Array(3 + depth).fill('#');
             commands.push(`${i.join('')} ${key} ${command.args ? '``' + command.args.join('`` ``') + '``' : ''}` +
                 `\n${command.description || 'No description.'}` +
-                (command.operations ? '\n\n**Operations:**' + parseOperations(command.operations) : '') +
+                (command.operations ? '\n\n**Operations:**\n\n' + parseOperations(command.operations) : '') +
                 (command.flags ? '\n\n**Flags:**' + parseFlags(command.flags) : '')
             );
         }

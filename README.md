@@ -25,7 +25,9 @@ gph -?
 ### credentials 
 Manage saved credentials on the local registry
 
-**Operations:**#### set ``<credentials-name>``
+**Operations:**
+
+#### set ``<credentials-name>``
 Register new credentials
 
 **Flags:**
@@ -52,7 +54,9 @@ Delete credentials from registry
 #### default 
 Manage the default credentials used in requests
 
-**Operations:**##### get 
+**Operations:**
+
+##### get 
 No description.
 ##### set ``<credentials-key>``
 Set the key
@@ -145,7 +149,9 @@ Returns batch data
 ### request 
 Manages the stored requests
 
-**Operations:**#### get ``<request name>``
+**Operations:**
+
+#### get ``<request name>``
 Print the request content
 #### set ``<request name>``
 Create an new request
