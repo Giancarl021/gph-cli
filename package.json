@@ -1,6 +1,6 @@
 {
     "name": "gph-cli",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "An wrapper of graph-interface to cli",
     "main": "index.js",
     "repository": "https://github.com/Giancarl021/gph-cli.git",
@@ -15,7 +15,7 @@
         "build-docs": "node build-docs.js"
     },
     "dependencies": {
-        "graph-interface": "^0.1.0",
+        "graph-interface": "^0.1.4",
         "readline-sync": "^1.4.10",
         "safe-eval": "^0.4.1",
         "yargs": "^15.3.1"
