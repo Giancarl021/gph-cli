@@ -2,6 +2,16 @@ const helper = require('./src/commands/help');
 const createDirectoryHandler = require('./src/util/directory');
 const createFileHandler = require('./src/util/file');
 
+const regex = /^\[\/\/\]: # \(ANCHOR\)[.\n\r]*\[\/\/\]: # \(END-ANCHOR\)$/gm;
+
+function replacer(str) {
+    return `[//]: # (ANCHOR)\n${str}\n[//]: # (END-ANCHOR)`;
+}
+
+function convert(help) {
+    return help;
+}
+
 function main() {
     const dir = createDirectoryHandler('src/commands');
     const commands = dir.files().map(cmd => cmd.replace(/\..*$/, '')).filter(cmd => cmd !== 'help');
@@ -10,7 +20,7 @@ function main() {
     let r = helper([]);
 
     console.log(r);
-    process.exit();
+    // process.exit();
 
     for(const command of commands) {
         helper([command]);
@@ -18,7 +28,7 @@ function main() {
 
     const content = readme.load();
 
-    readme.save(content.replace('<@>', r));
+    readme.save(content.replace(regex, replacer(r)));
 }
 
 main();

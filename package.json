@@ -11,7 +11,7 @@
     },
     "scripts": {
         "build": "node build.js",
-        "build-docs": "node readme.js"
+        "build-docs": "node build-docs.js"
     },
     "dependencies": {
         "graph-interface": "^0.1.0",
