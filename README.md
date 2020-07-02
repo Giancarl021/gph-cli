@@ -1,5 +1,5 @@
 # gph-cli
-An graph-interface wrapper to cli, that make easy to communicate to your Microsoft Tenant. 
+An [graph-interface](https://www.npmjs.com/package/graph-interface) wrapper to cli, that make easy to communicate to your Microsoft Tenant. 
 
 ## Installation
 Using npm:
@@ -20,7 +20,7 @@ gph -?
 
 ## Commands
 
-[//]: # (^)
+[//]: # "^"
 
 ### credentials 
 Manage saved credentials on the local registry
