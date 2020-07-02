@@ -1,17 +1,17 @@
 const help = require('./src/util/help.json');
 const createFileHandler = require('./src/util/file');
 
-const regex = /\[\/\/\]: # \(\^\)(.|\n)*\[\/\/\]: # \(\$\)/gim;
+const regex = /\[\/\/\]: # \(\^\)(.|\n|\r)*\[\/\/\]: # \(\$\)/gim;
 
 function replacer() {
-    return `[//]: # (^)\n\n${specialChars(markdown(help))}\n\n[//]: # ($)`;
+    return `[//]: # (^)\n\n${markdown(help)}\n\n[//]: # ($)`;
 
     function markdown(o, depth = 0) {
         const commands = [];
         for (const key in o) {
             const command = o[key];
             const i = Array(3 + depth).fill('#');
-            commands.push(`${i.join('')} ${key} ${command.args ? command.args.join(' ') : ''}` +
+            commands.push(`${i.join('')} ${key} ${command.args ? '``' + command.args.join('`` ``') + '``' : ''}` +
                 `\n${command.description || 'No description.'}` +
                 (command.operations ? '\n\n**Operations:**' + parseOperations(command.operations) : '') +
                 (command.flags ? '\n\n**Flags:**' + parseFlags(command.flags) : '')
@@ -28,18 +28,32 @@ function replacer() {
 
         function parseFlags(flags) {
             if(typeof flags === 'string') {
-                return '```\n' + flags + '\n```';
+                return '\n* ' + flags;
             }
-            let r = '```\n';
+            let r = '\n';
             for(const key in flags) {
                 const flag = flags[key];
                 
-                r += flag.description;
+                r += `* \`\`${parseKey(flag, key)}\`\`${flag.required ? ' **[REQUIRED]**' : ''}: ${flag.description}${flag.value ? `.  \n*Value:* \`\`${flag.value}\`\`.` : ''}\n`;
             }
 
-            r += '\n```';
+            r += '\n';
 
             return r;
+
+            function parseKey(o, key) {
+                let r = dash(key);
+        
+                if (o.alias) {
+                    r += ' | ' + dash(o.alias);
+                }
+        
+                return r;
+        
+                function dash(key) {
+                    return key.length === 1 ? '-' + key : '--' + key;
+                }
+            }
         }
     }
 
@@ -52,7 +66,6 @@ function replacer() {
 function main() {
     const readme = createFileHandler('README.md');
     const content = readme.load();
-    console.log(content);
     const r = replacer();
     readme.save(content.replace(regex, r));
 }
