@@ -23,12 +23,12 @@ gph -?
 [//]: # (^)
 
 ### credentials 
-[object Object]
+Manage saved credentials on the local registry
 
 **Operations:**
 
 #### set ``<credentials-name>``
-[object Object]
+Register new credentials
 
 **Flags:**
 * ``-t | --tenant-id``: Tenant ID.  
@@ -41,34 +41,34 @@ gph -?
 
 
 #### get ``<credentials-name>``
-[object Object]
+Print credentails value
 #### list 
 List all current saved credentials
 #### remove ``<credentials-name>``
-[object Object]
+Delete credentials from registry
 
 **Flags:**
 * ``-f | --force``: Don't ask nothing, just do it
 
 
 #### default 
-[object Object]
+Manage the default credentials used in requests
 
 **Operations:**
 
 ##### get 
 Print the key
 ##### set ``<credentials-key>``
-[object Object]
+Set the key
 ##### remove 
-[object Object]
+Delete the key
 
 **Flags:**
 * ``-f | --force``: Don't ask nothing, just do it
 
 
 ### token 
-[object Object]
+Get the access token to use the Graph API to the tenant
 
 **Flags:**
 * ``-c | --credentials``: The credentials used in the request
@@ -77,7 +77,7 @@ Print the key
 
 
 ### unit 
-[object Object]
+Returns unitary data (without pagination)
 
 **Flags:**
 * ``-c | --credentials``: The credentials used in the request
@@ -95,7 +95,7 @@ Print the key
 
 
 ### list ``<url>``
-[object Object]
+Returns paginated data
 
 **Flags:**
 * ``-c | --credentials``: The credentials used in the request
@@ -121,7 +121,7 @@ Print the key
 
 
 ### massive ``<url pattern>`` ``<foo:value[,value[,...]];bar:value[,value[,...]>``
-[object Object]
+Returns batch data
 
 **Flags:**
 * ``-c | --credentials``: The credentials used in the request
@@ -147,14 +147,14 @@ Print the key
 
 
 ### request 
-[object Object]
+Manages the stored requests
 
 **Operations:**
 
 #### get ``<request name>``
-[object Object]
+Print the request content
 #### set ``<request name>``
-[object Object]
+Create an new request
 
 **Flags:**
 * ``-f | --force``: Don't ask nothing, just do it
@@ -163,21 +163,21 @@ Print the key
 #### list 
 List all current stored requests
 #### remove ``<request name>``
-[object Object]
+Delete an request
 
 **Flags:**
 * ``-f | --force``: Don't ask nothing, just do it
 
 
 ### import ``<path to file>``
-[object Object]
+Import an .gphr or .gphrc request file
 
 **Flags:**
 * ``-p | --password``: In-line import and decrypt an .gphrc file with the file password
 
 
 ### export ``<request name>`` ``<path to file>``
-[object Object]
+Export an .gphr or .gphrc request file
 
 **Flags:**
 * ``-c | --credentials``: Set an stored credentials to bind with the request. By default set the flag "lock" to true
@@ -186,7 +186,7 @@ List all current stored requests
 
 
 ### exec ``<request name>``
-[object Object]
+Execute an stored request
 
 **Flags:**
 * All the flags of the request type will overwrite the request options
