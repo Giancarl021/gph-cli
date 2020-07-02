@@ -1,34 +1,60 @@
-const helper = require('./src/commands/help');
-const createDirectoryHandler = require('./src/util/directory');
+const help = require('./src/util/help.json');
 const createFileHandler = require('./src/util/file');
 
-const regex = /^\[\/\/\]: # \(ANCHOR\)[.\n\r]*\[\/\/\]: # \(END-ANCHOR\)$/gm;
+const regex = /\[\/\/\]: # \(\^\)(.|\n)*\[\/\/\]: # \(\$\)/gim;
 
-function replacer(str) {
-    return `[//]: # (ANCHOR)\n${str}\n[//]: # (END-ANCHOR)`;
-}
+function replacer() {
+    return `[//]: # (^)\n\n${specialChars(markdown(help))}\n\n[//]: # ($)`;
 
-function convert(help) {
-    return help;
+    function markdown(o, depth = 0) {
+        const commands = [];
+        for (const key in o) {
+            const command = o[key];
+            const i = Array(3 + depth).fill('#');
+            commands.push(`${i.join('')} ${key} ${command.args ? command.args.join(' ') : ''}` +
+                `\n${command.description || 'No description.'}` +
+                (command.operations ? '\n\n**Operations:**' + parseOperations(command.operations) : '') +
+                (command.flags ? '\n\n**Flags:**' + parseFlags(command.flags) : '')
+            );
+        }
+
+        const r = commands.join('\n');
+
+        return r;
+
+        function parseOperations(operations) {
+            return markdown(operations, depth + 1);
+        }
+
+        function parseFlags(flags) {
+            if(typeof flags === 'string') {
+                return '```\n' + flags + '\n```';
+            }
+            let r = '```\n';
+            for(const key in flags) {
+                const flag = flags[key];
+                
+                r += flag.description;
+            }
+
+            r += '\n```';
+
+            return r;
+        }
+    }
+
+    function specialChars(str) {
+        const regex = /(<|>)/g;
+        return str.replace(regex, _ => '\\' + _);
+    }
 }
 
 function main() {
-    const dir = createDirectoryHandler('src/commands');
-    const commands = dir.files().map(cmd => cmd.replace(/\..*$/, '')).filter(cmd => cmd !== 'help');
     const readme = createFileHandler('README.md');
-
-    let r = helper([]);
-
-    console.log(r);
-    // process.exit();
-
-    for(const command of commands) {
-        helper([command]);
-    }
-
     const content = readme.load();
-
-    readme.save(content.replace(regex, replacer(r)));
+    console.log(content);
+    const r = replacer();
+    readme.save(content.replace(regex, r));
 }
 
 main();
