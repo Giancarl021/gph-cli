@@ -1,6 +1,6 @@
 {
     "name": "gph-cli",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "An wrapper of graph-interface to cli",
     "main": "index.js",
     "repository": "https://github.com/Giancarl021/gph-cli.git",
@@ -10,6 +10,7 @@
         "gph": "bin"
     },
     "scripts": {
+        "start": "node index.js",
         "build": "node build.js",
         "build-docs": "node build-docs.js"
     },
@@ -21,5 +22,11 @@
     },
     "devDependencies": {
         "nexe": "^3.3.6"
-    }
+    },
+    "keywords": [
+        "Azure AD",
+        "Microsoft",
+        "Microsoft Graph API",
+        "Graph API"
+    ]
 }
