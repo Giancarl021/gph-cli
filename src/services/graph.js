@@ -5,7 +5,7 @@ module.exports = async function (credentials, version) {
         cache: {
             type: 'fs',
             fs: {
-                path: 'data/cache'
+                path: __dirname + '../../data/cache'
             }
         },
         version
