@@ -28,7 +28,7 @@ module.exports = function (path) {
     }
 
     function setArray(arr) {
-        file.save(arr.join('\n'));
+        file.save([...new Set(arr.filter(e => e))].join('\n'));
     }
 
     return {
