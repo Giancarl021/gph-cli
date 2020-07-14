@@ -20,7 +20,7 @@ gph -?
 
 ## Commands
 
-[//]: # "^"
+[//]: # (^)
 
 ### credentials 
 Manage saved credentials on the local registry
@@ -41,7 +41,7 @@ Register new credentials
 
 
 #### get ``<credentials-name>``
-Print credentails value
+Print credentials value
 #### list 
 List all current saved credentials
 #### remove ``<credentials-name>``
@@ -141,7 +141,7 @@ Returns batch data
 * ``--async``: If the batch requests will be made in async mode or in linear mode.  
 *Value:* ``true | false``.
 * ``--attempts``: The number of failed attempts before crash.  
-*Value:* ``<maximum failed attemps>``.
+*Value:* ``<maximum failed attempts>``.
 * ``--requests``: The quantity of batch requests made at the same time in async mode.  
 *Value:* ``<quantity>``.
 

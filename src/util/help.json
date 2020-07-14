@@ -28,7 +28,7 @@
                 }
             },
             "get": {
-                "description": "Print credentails value",
+                "description": "Print credentials value",
                 "args": ["<credentials-name>"]
             },
             "list": "List all current saved credentials",
@@ -208,7 +208,7 @@
             },
             "attempts": {
                 "description": "The number of failed attempts before crash",
-                "value": "<maximum failed attemps>"
+                "value": "<maximum failed attempts>"
             },
             "requests": {
                 "description": "The quantity of batch requests made at the same time in async mode",

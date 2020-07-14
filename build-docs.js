@@ -1,7 +1,7 @@
 const help = require('./src/util/help.json');
 const createFileHandler = require('./src/util/file');
 
-const regex = /\[\/\/\]: # \(\^\)(.|\n|\r)*\[\/\/\]: # \(\$\)/gim;
+const regex = /\[\/\/\]: # \(\^\)(.|\n|\r)*\[\/\/\]: # \(\$\)/gm;
 
 function replacer() {
     return `[//]: # (^)\n\n${markdown(help)}\n\n[//]: # ($)`;
