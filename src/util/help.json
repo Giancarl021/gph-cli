@@ -80,6 +80,7 @@
     },
     "unit": {
         "description": "Returns unitary data (without pagination)",
+        "args": ["<url>"],
         "flags": {
             "c": {
                 "alias": "credentials",
@@ -91,6 +92,14 @@
             "method": {
                 "description": "HTTP Method",
                 "value": "GET | POST | PUT | DELETE"
+            },
+            "body": {
+                "description": "The body of the request",
+                "value": "<Valid JSON>"
+            },
+            "headers": {
+                "description": "The custom headers of the request",
+                "value": "<Valid JSON>"
             },
             "cache": {
                 "description": "Time To Live of cache in this specific request",
@@ -126,6 +135,14 @@
             "method": {
                 "description": "HTTP Method",
                 "value": "GET | POST | PUT | DELETE"
+            },
+            "body": {
+                "description": "The body of the request",
+                "value": "<Valid JSON>"
+            },
+            "headers": {
+                "description": "The custom headers of the request",
+                "value": "<Valid JSON>"
             },
             "cache": {
                 "description": "Time To Live of cache in this specific request",
@@ -177,6 +194,14 @@
             "method": {
                 "description": "HTTP Method",
                 "value": "GET | POST | PUT | DELETE"
+            },
+            "body": {
+                "description": "The body of the request",
+                "value": "<Valid JSON>"
+            },
+            "headers": {
+                "description": "The custom headers of the request",
+                "value": "<Valid JSON>"
             },
             "cache": {
                 "description": "Time To Live of cache in this specific request",
