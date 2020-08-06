@@ -38,6 +38,8 @@ Register new credentials
 * ``-s | --client-secret``: Client Secret.  
 *Value:* ``<client-secret>``.
 * ``-f | --force``: Don't ask nothing, just do it
+* ``-d | --delegated``: Set credentials to delegated type
+* ``--no-d | --no-delegated``: Set credentials to application type
 
 
 #### get ``<credentials-name>``

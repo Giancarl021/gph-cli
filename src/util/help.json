@@ -24,6 +24,14 @@
                     "f": {
                         "alias": "force",
                         "description": "Don't ask nothing, just do it"
+                    },
+                    "d": {
+                        "alias": "delegated",
+                        "description": "Set credentials to delegated type"
+                    },
+                    "no-d": {
+                        "alias": "no-delegated",
+                        "description": "Set credentials to application type"
                     }
                 }
             },
