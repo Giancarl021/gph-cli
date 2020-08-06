@@ -1,8 +1,4 @@
-const {
-    question,
-    keyInSelect,
-    keyInYN
-} = require('readline-sync');
+const { question, keyInSelect, keyInYN } = require('readline-sync');
 
 const createJsonInterface = require('../util/json');
 const createDirectoryInterface = require('../util/directory');

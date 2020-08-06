@@ -1,17 +1,13 @@
 const safeEval = require('safe-eval');
-const {
-    question,
-    keyInSelect
-} = require('readline-sync');
+const { question, keyInSelect } = require('readline-sync');
 
-const {
-    askUntil,
-    tryUntil
-} = require('./until');
+const { askUntil, tryUntil } = require('./until');
 
 const defaultOptions = {
     version: 'string',
     method: 'string',
+    body: 'json',
+    headers: 'json',
     save: 'string',
     cache: 'number'
 };
@@ -38,7 +34,7 @@ const options = {
         type: '!unit|list',
         binder: '!string',
         async: 'boolean',
-        attemps: 'number',
+        attempts: 'number',
         requests: 'number'
     }
 };
@@ -56,7 +52,7 @@ module.exports = function (request) {
 }
 
 function askType(type, query) {
-    const listUntil = askUntil.bind(this, i => i !== -1, keyInSelect);
+    const listUntil = askUntil.bind(null, i => i !== -1, keyInSelect);
     let _type = type,
         _query = query,
         required = false;
@@ -88,6 +84,24 @@ function askType(type, query) {
         }
 
         return opt[index] || null;
+    } else if (_type === 'json') {
+        const builder = query => {
+            const json = question(query);
+            if(!json) return null;
+            return JSON.parse(json);
+        };
+
+        let json;
+
+        if(required) {
+            json = tryUntil(Boolean, builder, _query);
+        } else {
+            json = tryUntil(null, builder, _query);
+        }
+
+        if(!json) return null;
+
+        return JSON.stringify(json);
 
     } else if (_type === 'function') {
         const builder = query => {
@@ -99,7 +113,7 @@ function askType(type, query) {
         let fn;
 
         if (required) {
-            fn = tryUntil(fn => !!fn, builder, _query);
+            fn = tryUntil(Boolean, builder, _query);
         } else {
             fn = tryUntil(null, builder, _query);
         }
@@ -132,7 +146,7 @@ function askType(type, query) {
     } else {
         let str;
         if (required) {
-            str = askUntil(r => !!r, question, _query);
+            str = askUntil(Boolean, question, _query);
         } else {
             str = question(_query);
         }
