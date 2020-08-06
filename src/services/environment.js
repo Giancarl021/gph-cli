@@ -5,7 +5,8 @@ module.exports = function () {
         'data',
         'data/hash',
         'data/requests',
-        'data/cache'
+        'data/cache',
+        'data/delegated'
     ];
 
     function build() {

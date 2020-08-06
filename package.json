@@ -4,7 +4,7 @@
     "description": "An wrapper of graph-interface to cli",
     "main": "index.js",
     "repository": "https://github.com/Giancarl021/gph-cli.git",
-    "author": "Gianarlo Fontela da Luz <gian.f.luz@hotmail.com>",
+    "author": "Giancarlo Fontela da Luz <gian.f.luz@hotmail.com>",
     "license": "MIT",
     "bin": {
         "gph": "bin"
@@ -15,7 +15,8 @@
         "build-docs": "node build-docs.js"
     },
     "dependencies": {
-        "graph-interface": "^0.1.4",
+        "graph-interface": "^0.1.9",
+        "graph-interface-desktop-provider": "^0.1.1",
         "readline-sync": "^1.4.10",
         "safe-eval": "^0.4.1",
         "yargs": "^15.4.0"

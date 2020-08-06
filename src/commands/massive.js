@@ -1,8 +1,6 @@
 const getGraphInstance = require('../services/graph');
 const getCredentials = require('../util/credentials');
-const {
-    homedir
-} = require('os');
+const { homedir } = require('os');
 const truncate = require('../util/truncate');
 
 module.exports = async function (args, flags) {
@@ -50,7 +48,7 @@ module.exports = async function (args, flags) {
         throw new Error('Invalid values parameter');
     }
 
-
+    
     const response = await graph.massive(urlPattern, values, {
         cache: {
             expiresIn: flags.cache || null
@@ -63,7 +61,9 @@ module.exports = async function (args, flags) {
             attempts: typeof flags.attempts === 'number' ? flags.attempts : 3,
             requests: typeof flags.requests === 'number' ? flags.requests : 50
         },
-        type: flags.type
+        type: flags.type,
+        headers: flags.headers ? JSON.parse(flags.headers) : null,
+        body: flags.body ? JSON.parse(flags.body) : null,
     });
 
     await graph.close();

@@ -1,7 +1,4 @@
-const {
-    question,
-    keyInYN
-} = require('readline-sync');
+const { question, keyInYN } = require('readline-sync');
 const capitalize = require('../util/capitalize');
 const createHash = require('../util/hash');
 const createFileInterface = require('../util/file');
@@ -48,6 +45,12 @@ const operations = {
             credentials[key] = String(credentials[key]);
         }
 
+        if(!flags.hasOwnProperty('delegated') && !flags.hasOwnProperty('d')) {
+            credentials.delegated = keyInYN('This credentials are for delegated access?');
+        } else {
+            credentials.delegated = true;
+        }
+
         sjson.save(credentials);
         keys.add(key);
         return 'Credentials created';
@@ -71,14 +74,15 @@ const operations = {
 
         return `Tenant ID: ${data.tenant_id}\n` +
             `Client ID: ${data.client_id}\n` +
-            `Client Secret: ${data.client_secret}`;
+            `Client Secret: ${data.client_secret}\n` + 
+            `Credentials type: ${data.delegated ? 'Delegated': 'Application'}`;
     },
 
     default (args, flags) {
         const file = createFileInterface('data/hash/default');
 
         const operations = {
-            set(args, flags) {
+            set(args) {
                 const [key] = args;
 
                 if (!key) {
