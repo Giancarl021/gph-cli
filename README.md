@@ -76,7 +76,7 @@ Get the access token to use the Graph API to the tenant
 * ``--save``: The directory to save the response
 
 
-### unit 
+### unit ``<url>``
 Returns unitary data (without pagination)
 
 **Flags:**
@@ -84,6 +84,10 @@ Returns unitary data (without pagination)
 * ``--version``: The Graph API version
 * ``--method``: HTTP Method.  
 *Value:* ``GET | POST | PUT | DELETE``.
+* ``--body``: The body of the request.  
+*Value:* ``<Valid JSON>``.
+* ``--headers``: The custom headers of the request.  
+*Value:* ``<Valid JSON>``.
 * ``--cache``: Time To Live of cache in this specific request.  
 *Value:* ``<seconds>``.
 * ``--save``: The directory to save the response
@@ -102,6 +106,10 @@ Returns paginated data
 * ``--version``: The Graph API version
 * ``--method``: HTTP Method.  
 *Value:* ``GET | POST | PUT | DELETE``.
+* ``--body``: The body of the request.  
+*Value:* ``<Valid JSON>``.
+* ``--headers``: The custom headers of the request.  
+*Value:* ``<Valid JSON>``.
 * ``--cache``: Time To Live of cache in this specific request.  
 *Value:* ``<seconds>``.
 * ``--save``: The directory to save the response
@@ -128,6 +136,10 @@ Returns batch data
 * ``--version``: The Graph API version
 * ``--method``: HTTP Method.  
 *Value:* ``GET | POST | PUT | DELETE``.
+* ``--body``: The body of the request.  
+*Value:* ``<Valid JSON>``.
+* ``--headers``: The custom headers of the request.  
+*Value:* ``<Valid JSON>``.
 * ``--cache``: Time To Live of cache in this specific request.  
 *Value:* ``<seconds>``.
 * ``--save``: The directory to save the response
