@@ -47,6 +47,8 @@ const operations = {
 
         if(!flags.hasOwnProperty('delegated') && !flags.hasOwnProperty('d')) {
             credentials.delegated = keyInYN('This credentials are for delegated access?');
+        } else if(flags.delegated === false || flags.d === false) {
+            credentials.delegated = false;
         } else {
             credentials.delegated = true;
         }
