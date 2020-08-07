@@ -1,15 +1,9 @@
-const {
-    question
-} = require('readline-sync');
-const {
-    homedir
-} = require('os');
+const { question } = require('readline-sync');
+const { homedir } = require('os');
 const createHash = require('../util/hash');
 const createJsonInterface = require('../util/json');
 const createSecureJsonInterface = require('../util/sjson');
-const {
-    askUntil
-} = require('../util/until');
+const { askUntil } = require('../util/until');
 
 const credentialsCommand = require('./credentials');
 
@@ -31,9 +25,9 @@ module.exports = function (args, flags) {
     if (/\.gphrc$/.test(dest)) {
         let password = flags.p || flags.password;
         if (!password) {
-            password = createHash(askUntil(p => !!p, question, 'Insert the file password to import the request: '));
+            password = askUntil(Boolean, question, 'Insert the file password to import the request: ');
         }
-        json = createSecureJsonInterface(dest.replace('~', homedir()), password);
+        json = createSecureJsonInterface(dest.replace('~', homedir()), createHash(password));
     } else {
         json = createJsonInterface(dest.replace('~', homedir()), false);
     }
@@ -45,6 +39,7 @@ module.exports = function (args, flags) {
             'tenant-id': data.credentials.tenant_id,
             'client-id': data.credentials.client_id,
             'client-secret': data.credentials.client_secret,
+            [data.credentials.delegated ? 'delegated' : 'no-delegated']: null
         };
         try {
             credentialsCommand(['set', `req@${name}`], {
