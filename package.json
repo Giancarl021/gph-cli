@@ -1,6 +1,6 @@
 {
     "name": "gph-cli",
-    "version": "0.1.8",
+    "version": "0.1.9",
     "description": "An wrapper of graph-interface to cli",
     "main": "index.js",
     "repository": "https://github.com/Giancarl021/gph-cli.git",
