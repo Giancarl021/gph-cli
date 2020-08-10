@@ -125,7 +125,7 @@
             },
             "fields": {
                 "description": "Filter what fields in the response will return",
-                "value": "<field[,field[,...]]>"
+                "value": "<field[ as name][,field[ as name][,...]]>"
             }
         }
     },

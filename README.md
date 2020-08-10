@@ -97,7 +97,7 @@ Returns unitary data (without pagination)
 *Value:* ``null | <length>``.
 * ``--no-print``: Don't show the response on terminal
 * ``--fields``: Filter what fields in the response will return.  
-*Value:* ``<field[,field[,...]]>``.
+*Value:* ``<field[ as name][,field[ as name][,...]]>``.
 
 
 ### list ``<url>``
