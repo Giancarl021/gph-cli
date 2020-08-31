@@ -16,7 +16,7 @@
     },
     "dependencies": {
         "graph-interface": "^0.1.10",
-        "graph-interface-desktop-provider": "^0.1.3",
+        "graph-interface-desktop-provider": "^0.1.5",
         "readline-sync": "^1.4.10",
         "safe-eval": "^0.4.1",
         "yargs": "^15.4.0"

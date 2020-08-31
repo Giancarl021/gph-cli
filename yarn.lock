@@ -1147,10 +1147,10 @@ graceful-fs@^4.1.10, graceful-fs@^4.1.2:
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
   integrity sha1-TK+tdrxi8C+gObL5Tpo906ORpyU=
 
-graph-interface-desktop-provider@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/graph-interface-desktop-provider/-/graph-interface-desktop-provider-0.1.3.tgz#339ad15c35f309809ec2d000417a1ff66ee01ea7"
-  integrity sha512-QYQ5M/ks01/Wgdlok7CNhPxKWkQvr1hWuVpRA2bbbX3Ctl5oSpJF2XaaiHuRrRCmz7k1gLJaIp/40omOpA/TmQ==
+graph-interface-desktop-provider@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/graph-interface-desktop-provider/-/graph-interface-desktop-provider-0.1.5.tgz#707b15b5a0ee3f6089a0ee510e26c2ae153bb958"
+  integrity sha512-7YK/V6D+P0T9jpqyss+eESpTtySV0nSbIEgSUH0nUNG73fSusz4qoxt9IO6eUAEsh8VAmKiv+l4b2jTXYx3NnA==
   dependencies:
     client-oauth2 "^4.3.2"
     open "^7.1.0"
