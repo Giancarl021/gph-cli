@@ -1,22 +1,25 @@
 import Graph from '../services/graph';
-import getCredentialsId from '../util/credentialsId';
+import Cache from '../util/vault-cache';
 import { Command } from '@giancarl021/cli-core/interfaces';
 import { Credentials } from '../interfaces';
 
 const command : Command = async function () {
-    const credentialsId = getCredentialsId(this.helpers.getFlag('c', 'credentials').toString());
+    const key = this.helpers.valueOrDefault(
+        this.helpers.getFlag('c', 'credentials').toString(),
+        this.extensions.vault.getData('credentials.default')
+    );
+
     const graphVersion = this.helpers.valueOrDefault(this.helpers.getFlag('v', 'graph-version'), 'v1.0');
 
-    let token = this.extensions.vault.getData(credentialsId);
+    if (!key) throw new Error('No credentials provided');
 
-    if (!token) {
-        const credentials: Credentials = this.extensions.vault.getSecret(credentialsId);
+    const credentials: Credentials | null = JSON.parse(this.extensions.vault.getSecret(key) ?? 'null');
 
-        if (!credentials) throw new Error(`Credentials "${credentialsId}" not found`);
-        const graph = Graph(credentials.auth, credentials.isDelegated, graphVersion);
+    if (!credentials) throw new Error('Credentials not found');
 
-        token = await graph.getAccessToken();
-    }
+    const graph = Graph(this, credentials.auth, credentials.isDelegated, graphVersion);
+
+    const token = await graph.getAccessToken();
 
     return token;
 }
