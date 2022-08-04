@@ -23,6 +23,7 @@ export default function (internal: CommandInternal, credentials: Credentials) : 
 
     async function has(key: string) {
         const now = new Date();
+        if (expirations[key] === null) return true;
         if (!expirations[key]) return false;
 
         if (now > expirations[key]!) {
