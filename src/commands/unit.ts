@@ -6,7 +6,7 @@ import Graph from '../services/graph';
 import constants from '../util/constants';
 import validateRequestCommandInput from '../util/validate-request-command-input';
 
-const command: Command = async function (args) {
+const command: Command = async function () {
     const {
         credentials,
         endpoint,

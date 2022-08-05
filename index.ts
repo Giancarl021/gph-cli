@@ -5,7 +5,7 @@ import { Behavior } from '@giancarl021/cli-core/interfaces';
 import CliCoreVaultExtension from '@giancarl021/cli-core-vault-extension';
 
 import vaultExtensionOptions from './src/util/vaultExtensionOptions';
-import commands from './src/commands';
+import * as commands from './src/commands';
 
 const APP_NAME = 'gph';
 const DEBUG_MODE = String(process.env.GPH_DEBUG).toLowerCase() === 'true';

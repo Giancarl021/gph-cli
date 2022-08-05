@@ -20,12 +20,12 @@ export default function (
         `${credentials.auth.clientId}-${credentials.auth.clientSecret}-${credentials.auth.tenantId}::${credentials.isDelegated}`
     );
 
+    const cacheData : ExpirationsString | null = internal.extensions.vault.getData(
+        `cache.${credentialsHash}.expirations`
+    ) ?? null;
+
     const expirations: Expirations = internal.helpers.valueOrDefault(
-        Object.entries(
-            internal.extensions.vault.getData(
-                `cache.${credentialsHash}.expirations`
-            ) as ExpirationsString
-        ).reduce((obj, [key, value]) => {
+        cacheData && Object.entries(cacheData).reduce((obj, [key, value]) => {
             obj[key] = value ? new Date(value) : null;
             return obj;
         }, {} as Expirations),

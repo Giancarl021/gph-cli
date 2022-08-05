@@ -1,7 +1,7 @@
 import { Commands } from '@giancarl021/cli-core/interfaces';
 import { Credentials } from '../interfaces';
 
-const credentialsKeyRegex = /^[@0-9a-z]+$/i;
+const credentialsKeyRegex = /^[0-9a-z]+$/i;
 
 function checkKey(key: string) {
     if (!key) throw new Error('No key provided');
@@ -14,9 +14,6 @@ const commands: Commands = {
         const [key] = args;
 
         checkKey(key);
-
-        if (key.includes('@'))
-            throw new Error('Only imported keys can contain "@"');
 
         const clientId = this.helpers.getFlag('client-id', 'c');
         const clientSecret = this.helpers.getFlag('client-secret', 's');

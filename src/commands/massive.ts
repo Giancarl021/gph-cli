@@ -11,7 +11,7 @@ import validateRequestCommandInput, {
     parseHeaders
 } from '../util/validate-request-command-input';
 
-const command: Command = async function (args) {
+const command: Command = async function () {
     const {
         credentials,
         endpoint: pattern,

@@ -5,7 +5,7 @@ import list from './list';
 import massive from './massive';
 import template from './template';
 
-export default {
+export {
     token,
     unit,
     list,

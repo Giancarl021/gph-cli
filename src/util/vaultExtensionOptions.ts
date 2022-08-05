@@ -9,6 +9,6 @@ const baseData = {
 };
 
 export default {
-    baseData
-    // dataPath: '~/.gph/vars.json'
+    baseData,
+    dataPath: '~/Documentos/Git/gph-cli/data/vars.json'
 } as VaultExtensionOptions;
