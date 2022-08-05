@@ -16,6 +16,12 @@ const command: Command = async function (args) {
         graphVersion
     } = await validateRequestCommandInput(this);
 
+    const limit = Number(this.helpers.getFlag('limit', 'l')) || undefined;
+    const offset = Number(this.helpers.getFlag('offset', 'o')) || undefined;
+
+    if (limit && limit < 0) throw new Error('Limit must be greater than 0');
+    if (offset && offset < 0) throw new Error('Offset must be greater than 0');
+
     const graph = Graph(
         this,
         credentials.auth,
@@ -23,11 +29,13 @@ const command: Command = async function (args) {
         graphVersion
     );
 
-    const result = await graph.unit<object>(endpoint, {
+    const result = await graph.list<object>(endpoint, {
         body,
         headers,
         method,
-        useCache
+        useCache,
+        limit,
+        offset
     });
 
     return constants.cli.asString(result);

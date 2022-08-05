@@ -14,7 +14,7 @@
         "gph": "lib/index.js"
     },
     "scripts": {
-        "dev": "ts-node index.ts",
+        "dev": "GPH_DEBUG=TRUE ts-node index.ts",
         "start": "node lib/index.js",
         "prestart": "yarn build",
         "build": "tsc",

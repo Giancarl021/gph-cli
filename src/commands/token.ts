@@ -1,11 +1,10 @@
 import Graph from '../services/graph';
-import Cache from '../util/vault-cache';
 import { Command } from '@giancarl021/cli-core/interfaces';
 import { Credentials } from '../interfaces';
 
 const command : Command = async function () {
     const key = this.helpers.valueOrDefault(
-        this.helpers.getFlag('c', 'credentials').toString(),
+        this.helpers.getFlag('c', 'credentials')?.toString(),
         this.extensions.vault.getData('credentials.default')
     );
 
@@ -13,7 +12,7 @@ const command : Command = async function () {
 
     if (!key) throw new Error('No credentials provided');
 
-    const credentials: Credentials | null = JSON.parse(this.extensions.vault.getSecret(key) ?? 'null');
+    const credentials: Credentials | null = JSON.parse(await this.extensions.vault.getSecret(key) ?? 'null');
 
     if (!credentials) throw new Error('Credentials not found');
 

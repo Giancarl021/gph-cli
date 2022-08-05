@@ -7,7 +7,6 @@ import { CommandInternal } from '@giancarl021/cli-core/interfaces';
 import vaultCache from '../util/vault-cache';
 
 export default function (commandInternal: CommandInternal, credentials: Credentials, isDelegated: boolean, version?: string) {
-
     const graph = GraphInterface(credentials, {
         authenticationProvider: isDelegated ? GraphInterfaceDesktopProvider({}) : undefined,
         version,

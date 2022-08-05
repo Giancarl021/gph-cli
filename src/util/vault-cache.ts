@@ -9,16 +9,21 @@ interface Expirations {
 }
 
 export default function (internal: CommandInternal, credentials: Credentials) : CacheService {
-    const expirations: Expirations = {};
-
     const credentialsHash = hash(`${credentials.auth.clientId}-${credentials.auth.clientSecret}-${credentials.auth.tenantId}::${credentials.isDelegated}`);
+    
+    const expirations: Expirations = internal.helpers.valueOrDefault(
+        internal.extensions.vault.getData(`cache.${credentialsHash}.expirations`),
+        {}
+    );
 
-    function Key(key: string) {
-        return `cache.${credentialsHash}.${key}`;
+    function Key(key: string, isExpiration = false) {
+        return `cache.${credentialsHash}.${isExpiration ? 'expirations' : 'data'}.${key}`;
     }
 
     async function expire(key: string) {
         internal.extensions.vault.removeData(Key(key));
+        internal.extensions.vault.removeData(Key(key, true));
+        delete expirations[key];
     }
 
     async function has(key: string) {
@@ -28,7 +33,6 @@ export default function (internal: CommandInternal, credentials: Credentials) : 
 
         if (now > expirations[key]!) {
             await expire(key);
-            delete expirations[key];
             return false;
         }
 
@@ -48,6 +52,7 @@ export default function (internal: CommandInternal, credentials: Credentials) : 
         expirations[key] = expiration ? now : null;
 
         internal.extensions.vault.setData(Key(key), value);
+        internal.extensions.vault.setData(Key(key, true), expirations[key]);
     }
 
     return {
