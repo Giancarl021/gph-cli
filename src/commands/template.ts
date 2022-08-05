@@ -22,9 +22,9 @@ const commands: Commands = {
                 )}`
             );
 
-        const key = this.helpers.hasFlag('credentials', 'c') ?
-            this.helpers.getFlag('credentials', 'c')!.toString() :
-            '@default';
+        const key = this.helpers.hasFlag('credentials', 'c')
+            ? this.helpers.getFlag('credentials', 'c')!.toString()
+            : '@default';
 
         if (!key) throw new Error('No credentials provided');
 
@@ -33,7 +33,11 @@ const commands: Commands = {
         if (!output) throw new Error('No output file provided');
 
         const credentials: Credentials | null = JSON.parse(
-            (await this.extensions.vault.getSecret(key === '@default' ? this.extensions.vault.getData('credentials.default') : key)) ?? 'null'
+            (await this.extensions.vault.getSecret(
+                key === '@default'
+                    ? this.extensions.vault.getData('credentials.default')
+                    : key
+            )) ?? 'null'
         );
 
         if (!credentials) throw new Error('Credentials not found');
@@ -79,11 +83,9 @@ const commands: Commands = {
 
         const key = this.helpers.hasFlag('credentials', 'c')
             ? this.helpers.getFlag('c', 'credentials')!.toString()
-            : (
-                template.credentialsId === '@default' ?
-                    this.extensions.vault.getData('credentials.default') :
-                    template.credentialsId
-            );
+            : template.credentialsId === '@default'
+            ? this.extensions.vault.getData('credentials.default')
+            : template.credentialsId;
 
         const credentials: Credentials | null = JSON.parse(
             (await this.extensions.vault.getSecret(key)) ?? 'null'

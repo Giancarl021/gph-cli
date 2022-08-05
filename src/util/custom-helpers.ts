@@ -1,26 +1,31 @@
-import { CommandHelpers, GetFlagHelper, WhichFlagHelper, Flags } from '@giancarl021/cli-core/interfaces';
+import {
+    CommandHelpers,
+    GetFlagHelper,
+    WhichFlagHelper,
+    Flags
+} from '@giancarl021/cli-core/interfaces';
 
 export default function (args: string[], flags: Flags): CommandHelpers {
     function getFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        const n = arr.find(n => flags.hasOwnProperty(n));
+        const n = arr.find((n) => flags.hasOwnProperty(n));
 
         if (typeof n === 'undefined') return n;
-        
+
         return flags[n];
     }
 
     function hasFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        return arr.some(n => flags.hasOwnProperty(n));
+        return arr.some((n) => flags.hasOwnProperty(n));
     }
 
     function whichFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        const n = arr.find(n => flags.hasOwnProperty(n));
+        const n = arr.find((n) => flags.hasOwnProperty(n));
 
         return n;
     }
@@ -43,7 +48,7 @@ export default function (args: string[], flags: Flags): CommandHelpers {
 
     function cloneArgs() {
         return [...args];
-    } 
+    }
 
     return {
         getFlag: getFlag as GetFlagHelper,

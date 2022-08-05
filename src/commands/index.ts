@@ -5,11 +5,4 @@ import list from './list';
 import massive from './massive';
 import template from './template';
 
-export {
-    token,
-    unit,
-    list,
-    massive,
-    template,
-    credentials
-};
+export { token, unit, list, massive, template, credentials };
