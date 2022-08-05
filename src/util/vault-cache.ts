@@ -8,11 +8,19 @@ interface Expirations {
     [key: string]: Date | null;
 }
 
+interface ExpirationsString {
+    [key: string]: string;
+}
+
 export default function (internal: CommandInternal, credentials: Credentials) : CacheService {
     const credentialsHash = hash(`${credentials.auth.clientId}-${credentials.auth.clientSecret}-${credentials.auth.tenantId}::${credentials.isDelegated}`);
     
     const expirations: Expirations = internal.helpers.valueOrDefault(
-        internal.extensions.vault.getData(`cache.${credentialsHash}.expirations`),
+        Object.entries(internal.extensions.vault.getData(`cache.${credentialsHash}.expirations`) as ExpirationsString)
+            .reduce((obj, [key, value]) => {
+                obj[key] = value ? new Date(value) : null;
+                return obj;
+            }, {} as Expirations),
         {}
     );
 

@@ -5,6 +5,6 @@ export default {
     cli: {
         asString(data: object) {
             return JSON.stringify(data, null, 2);
-        } 
+        }
     }
 }

@@ -14,18 +14,7 @@ export default async function (commandThis: CommandInternal) {
     const method = commandThis.helpers
         .valueOrDefault(commandThis.helpers.getFlag('method', 'm'), 'GET')
         .toUpperCase();
-    const headers = commandThis.helpers.hasFlag('headers', 'H')
-        ? String(commandThis.helpers.getFlag('headers', 'H'))
-              .split(';')
-              .map((e) => e.trim())
-              .reduce((obj: HttpHeaders, item: string) => {
-                  const [key, value] = item.split(':').map((e) => e.trim());
-
-                  obj[key] = value;
-
-                  return obj;
-              }, {})
-        : undefined;
+    const headers = parseHeaders(commandThis, 'H', 'headers');
 
     const endpoint = commandThis.helpers.getArgAt(0);
 
@@ -52,4 +41,22 @@ export default async function (commandThis: CommandInternal) {
         useCache,
         graphVersion
     };
+}
+
+export function parseHeaders(commandThis: CommandInternal, ...flagNames: string[]) {
+    const [first, ...aliases] = flagNames;
+    const headers = commandThis.helpers.hasFlag(first, ...aliases)
+        ? String(commandThis.helpers.getFlag(first, ...aliases))
+              .split(';')
+              .map((e) => e.trim())
+              .reduce((obj: HttpHeaders, item: string) => {
+                  const [key, value] = item.split(':').map((e) => e.trim());
+
+                  obj[key] = value;
+
+                  return obj;
+              }, {})
+        : undefined;
+
+    return headers;
 }

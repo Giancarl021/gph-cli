@@ -1,4 +1,5 @@
 import { Command } from '@giancarl021/cli-core/interfaces';
+import { UnitOptions } from 'graph-interface/lib/interfaces';
 
 import Graph from '../services/graph';
 
@@ -23,12 +24,14 @@ const command: Command = async function (args) {
         graphVersion
     );
 
-    const result = await graph.unit<object>(endpoint, {
+    const options = {
         body,
         headers,
         method,
         useCache
-    });
+    } as UnitOptions;
+
+    const result = await graph.unit<object>(endpoint, options);
 
     return constants.cli.asString(result);
 };
