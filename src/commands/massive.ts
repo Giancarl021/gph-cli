@@ -7,7 +7,9 @@ import locate from '@giancarl021/locate';
 import Graph from '../services/graph';
 
 import constants from '../util/constants';
-import validateRequestCommandInput, { parseHeaders } from '../util/validate-request-command-input';
+import validateRequestCommandInput, {
+    parseHeaders
+} from '../util/validate-request-command-input';
 
 const command: Command = async function (args) {
     const {
@@ -39,31 +41,35 @@ const command: Command = async function (args) {
             throw new Error('File not a valid JSON');
         }
 
-        if (
-            typeof data !== 'object' ||
-            !Array.isArray(data)
-        ) throw new Error('Invalid JSON format');
+        if (typeof data !== 'object' || !Array.isArray(data))
+            throw new Error('Invalid JSON format');
 
-        values = (
-            (data as any[])
-                .map(item => Array.isArray(item) ? item.map(String): String(item))
-        ) as (string[] | string[][]);
+        values = (data as any[]).map((item) =>
+            Array.isArray(item) ? item.map(String) : String(item)
+        ) as string[] | string[][];
     } else {
-        values = _values
-            .split(';')
-            .map(list => list.split(','));
+        values = _values.split(';').map((list) => list.split(','));
     }
 
     if (!values.length) throw new Error('No interpolation values provided');
 
     const attempts = Number(this.helpers.getFlag('attempts')) || undefined;
-    const binderIndex = Number(this.helpers.getFlag('binder-index')) || undefined;
-    const requestsPerAttempt = Number(this.helpers.getFlag('requests-per-attempt')) || undefined;
-    const nullifyErrors = this.helpers.hasFlag('lossy', 'nullify', 'nullify-errors');
+    const binderIndex =
+        Number(this.helpers.getFlag('binder-index')) || undefined;
+    const requestsPerAttempt =
+        Number(this.helpers.getFlag('requests-per-attempt')) || undefined;
+    const nullifyErrors = this.helpers.hasFlag(
+        'lossy',
+        'nullify',
+        'nullify-errors'
+    );
 
-    if (attempts && attempts < 0) throw new Error('Attempts must be greater than 0');
-    if (binderIndex && binderIndex < 0) throw new Error('Binder index must be greater than 0');
-    if (requestsPerAttempt && requestsPerAttempt < 0) throw new Error('Requests per attempt must be greater than 0');
+    if (attempts && attempts < 0)
+        throw new Error('Attempts must be greater than 0');
+    if (binderIndex && binderIndex < 0)
+        throw new Error('Binder index must be greater than 0');
+    if (requestsPerAttempt && requestsPerAttempt < 0)
+        throw new Error('Requests per attempt must be greater than 0');
 
     const batchRequestHeaders = parseHeaders(this, 'batch-headers');
 

@@ -1,7 +1,4 @@
 import Credentials from './Credentials';
 import Template from './Template';
 
-export {
-    Credentials,
-    Template
-};
+export { Credentials, Template };

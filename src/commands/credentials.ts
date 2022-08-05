@@ -15,7 +15,8 @@ const commands: Commands = {
 
         checkKey(key);
 
-        if (key.includes('@')) throw new Error('Only imported keys can contain "@"');
+        if (key.includes('@'))
+            throw new Error('Only imported keys can contain "@"');
 
         const clientId = this.helpers.getFlag('client-id', 'c');
         const clientSecret = this.helpers.getFlag('client-secret', 's');
@@ -25,9 +26,10 @@ const commands: Commands = {
         if (!clientSecret) throw new Error('No client secret provided');
         if (!tenantId) throw new Error('No tenant id provided');
 
-        const isDelegated = this.helpers.hasFlag('delegated', 'd') ||
+        const isDelegated =
+            this.helpers.hasFlag('delegated', 'd') ||
             !this.helpers.hasFlag('no-delegated', 'no-d');
-        
+
         const overwrite = this.helpers.hasFlag('force', 'f');
 
         const credentials = {
@@ -44,13 +46,15 @@ const commands: Commands = {
         const hasSecret = Boolean(await this.extensions.vault.getSecret(key));
 
         if (!overwrite && hasSecret)
-            throw new Error('Credentials already exists, use "--force" to overwrite');
+            throw new Error(
+                'Credentials already exists, use "--force" to overwrite'
+            );
 
         await this.extensions.vault.setSecret(key, credentialsString);
 
         const keys = this.extensions.vault.getData('credentials.keys');
         keys.push(key);
-        this.extensions.vault.setData('credentials.keys', [ ...new Set(keys) ]);
+        this.extensions.vault.setData('credentials.keys', [...new Set(keys)]);
 
         return 'Credentials set';
     },
@@ -62,7 +66,8 @@ const commands: Commands = {
 
         const credentialsString = await this.extensions.vault.getSecret(key);
 
-        if (!credentialsString) throw new Error(`Credentials "${key}" not found`);
+        if (!credentialsString)
+            throw new Error(`Credentials "${key}" not found`);
 
         const credentials = JSON.parse(credentialsString) as Credentials;
 
@@ -80,7 +85,7 @@ const commands: Commands = {
 
         const out = keyList.map((c: string) => `    * ${c}`).join('\n');
 
-        return `Credentials List:\n${out}`;    
+        return `Credentials List:\n${out}`;
     },
 
     async remove(args) {
@@ -98,7 +103,9 @@ const commands: Commands = {
         keys.splice(keys.indexOf(key), 1);
         this.extensions.vault.setData('credentials.keys', keys);
 
-        const defaultCredentials = this.extensions.vault.getData('credentials.default');
+        const defaultCredentials = this.extensions.vault.getData(
+            'credentials.default'
+        );
 
         if (defaultCredentials === key)
             this.extensions.vault.setData('credentials.default', null);
@@ -118,7 +125,9 @@ const commands: Commands = {
         },
 
         get() {
-            const defaultCredentials = this.extensions.vault.getData('credentials.default');
+            const defaultCredentials = this.extensions.vault.getData(
+                'credentials.default'
+            );
 
             if (!defaultCredentials) return 'No default credentials set';
 

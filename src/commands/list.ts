@@ -38,7 +38,7 @@ const command: Command = async function (args) {
         limit,
         offset
     } as ListOptions;
-    
+
     const result = await graph.list<object>(endpoint, options);
 
     return constants.cli.asString(result);

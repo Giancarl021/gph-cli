@@ -6,9 +6,9 @@ const baseData = {
         default: null,
         keys: []
     }
-}
+};
 
 export default {
-    baseData,
+    baseData
     // dataPath: '~/.gph/vars.json'
 } as VaultExtensionOptions;

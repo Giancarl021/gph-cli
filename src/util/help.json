@@ -175,7 +175,7 @@
                 "value": "<JavaScript function>"
             },
             "reduce": {
-                "description": "Convert all the objects in the response into one accumulator", 
+                "description": "Convert all the objects in the response into one accumulator",
                 "value": "<JavaScript function>"
             },
             "limit": {
@@ -190,7 +190,10 @@
     },
     "massive": {
         "description": "Returns batch data",
-        "args": ["<url pattern>", "<foo:value[,value[,...]];bar:value[,value[,...]>"],
+        "args": [
+            "<url pattern>",
+            "<foo:value[,value[,...]];bar:value[,value[,...]>"
+        ],
         "flags": {
             "c": {
                 "alias": "credentials",
@@ -308,6 +311,6 @@
     "exec": {
         "description": "Execute an stored request",
         "args": ["<request name>"],
-        "flags":  "All the flags of the request type will overwrite the request options"
+        "flags": "All the flags of the request type will overwrite the request options"
     }
 }

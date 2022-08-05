@@ -22,12 +22,12 @@ async function main() {
         appDescription: 'CLI wrapper of graph-interface',
         args: {
             flags: {
-                helpFlags: [ '?', 'h', 'help' ]
+                helpFlags: ['?', 'h', 'help']
             }
         },
         behavior,
         commands,
-        extensions: [ CliCoreVaultExtension(vaultExtensionOptions) ]
+        extensions: [CliCoreVaultExtension(vaultExtensionOptions)]
     });
 
     return await runner.run();
@@ -36,7 +36,5 @@ async function main() {
 const commandPromise = main();
 
 if (DEBUG_MODE) {
-    commandPromise
-        .then(console.log)
-        .catch(console.error);
+    commandPromise.then(console.log).catch(console.error);
 }

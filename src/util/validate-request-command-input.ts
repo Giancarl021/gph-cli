@@ -43,7 +43,10 @@ export default async function (commandThis: CommandInternal) {
     };
 }
 
-export function parseHeaders(commandThis: CommandInternal, ...flagNames: string[]) {
+export function parseHeaders(
+    commandThis: CommandInternal,
+    ...flagNames: string[]
+) {
     const [first, ...aliases] = flagNames;
     const headers = commandThis.helpers.hasFlag(first, ...aliases)
         ? String(commandThis.helpers.getFlag(first, ...aliases))

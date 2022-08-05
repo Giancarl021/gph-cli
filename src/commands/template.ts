@@ -24,7 +24,7 @@ const commands: Commands = {
         );
 
         if (!credentials) throw new Error('Credentials not found');
-        
+
         const [command, ..._args] = args;
         const _flags = { ...flags };
 
@@ -33,7 +33,12 @@ const commands: Commands = {
         delete _flags['o'];
         delete _flags['output'];
 
-        if (!constants.template.availableCommands.includes(command)) throw new Error(`Command "${command}" not available for templates, the command should be one of ${constants.template.availableCommands.join(', ')}`);
+        if (!constants.template.availableCommands.includes(command))
+            throw new Error(
+                `Command "${command}" not available for templates, the command should be one of ${constants.template.availableCommands.join(
+                    ', '
+                )}`
+            );
 
         const template: Template = {
             command,
@@ -47,6 +52,10 @@ const commands: Commands = {
         await writeFile(path, JSON.stringify(template, null, 2));
 
         return `Request template saved on "${path}"`;
+    },
+
+    async run(args, flags) {
+        return '';
     }
 };
 

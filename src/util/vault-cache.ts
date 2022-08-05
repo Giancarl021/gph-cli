@@ -12,20 +12,30 @@ interface ExpirationsString {
     [key: string]: string;
 }
 
-export default function (internal: CommandInternal, credentials: Credentials) : CacheService {
-    const credentialsHash = hash(`${credentials.auth.clientId}-${credentials.auth.clientSecret}-${credentials.auth.tenantId}::${credentials.isDelegated}`);
-    
+export default function (
+    internal: CommandInternal,
+    credentials: Credentials
+): CacheService {
+    const credentialsHash = hash(
+        `${credentials.auth.clientId}-${credentials.auth.clientSecret}-${credentials.auth.tenantId}::${credentials.isDelegated}`
+    );
+
     const expirations: Expirations = internal.helpers.valueOrDefault(
-        Object.entries(internal.extensions.vault.getData(`cache.${credentialsHash}.expirations`) as ExpirationsString)
-            .reduce((obj, [key, value]) => {
-                obj[key] = value ? new Date(value) : null;
-                return obj;
-            }, {} as Expirations),
+        Object.entries(
+            internal.extensions.vault.getData(
+                `cache.${credentialsHash}.expirations`
+            ) as ExpirationsString
+        ).reduce((obj, [key, value]) => {
+            obj[key] = value ? new Date(value) : null;
+            return obj;
+        }, {} as Expirations),
         {}
     );
 
     function Key(key: string, isExpiration = false) {
-        return `cache.${credentialsHash}.${isExpiration ? 'expirations' : 'data'}.${key}`;
+        return `cache.${credentialsHash}.${
+            isExpiration ? 'expirations' : 'data'
+        }.${key}`;
     }
 
     async function expire(key: string) {
@@ -48,8 +58,9 @@ export default function (internal: CommandInternal, credentials: Credentials) : 
     }
 
     async function get<T>(key: string) {
-        if (!await has(key)) throw new Error(`Item "${key}" not found in cache`);
-        
+        if (!(await has(key)))
+            throw new Error(`Item "${key}" not found in cache`);
+
         return internal.extensions.vault.getData(Key(key)) as T;
     }
 
@@ -68,5 +79,5 @@ export default function (internal: CommandInternal, credentials: Credentials) : 
         set,
         has,
         expire
-    }
+    };
 }
