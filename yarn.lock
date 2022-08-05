@@ -33,6 +33,11 @@
   resolved "https://registry.yarnpkg.com/@giancarl021/locate/-/locate-0.1.4.tgz#6a71ff206d1afa8b5983d7592579ef8a30b71652"
   integrity sha512-fbHhdQfCQNgLo/tGqqVv+LzrunZSrTqYVKTMN4gn9r7YahifqEpwTKigqgKBqnK6du/vZP4vkvJ+cMHC8wbjSw==
 
+"@giancarl021/locate@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@giancarl021/locate/-/locate-0.1.6.tgz#40ecdb894f0ebd04d9c82241def0392b3e3ec550"
+  integrity sha512-Y4r9I2A2oPnfLBk002sKynInGxyP9J/v26bu71HfDMAX2D9ZBtQ6jnnqdprsGPiMyCuv5RqIL7ypysWLhg6caw==
+
 "@giancarl021/type-inference@^0.1.3":
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/@giancarl021/type-inference/-/type-inference-0.1.3.tgz#6a0acf3353b39f7df0af49634724e435b64cb691"
