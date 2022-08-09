@@ -1,316 +1,248 @@
 {
-    "credentials": {
-        "description": "Manage saved credentials on the local registry",
-        "operations": {
-            "set": {
-                "description": "Register new credentials",
-                "args": ["<credentials-name>"],
-                "flags": {
-                    "t": {
-                        "alias": "tenant-id",
-                        "description": "Tenant ID",
-                        "value": "<tenant-id>"
-                    },
-                    "c": {
-                        "alias": "client-id",
-                        "description": "Client ID",
-                        "value": "<client-id>"
-                    },
-                    "s": {
-                        "alias": "client-secret",
-                        "description": "Client Secret",
-                        "value": "<client-secret>"
-                    },
-                    "f": {
-                        "alias": "force",
-                        "description": "Don't ask nothing, just do it"
-                    },
-                    "d": {
-                        "alias": "delegated",
-                        "description": "Set credentials to delegated type"
-                    },
-                    "no-d": {
-                        "alias": "no-delegated",
-                        "description": "Set credentials to application type"
-                    }
-                }
-            },
-            "get": {
-                "description": "Print credentials value",
-                "args": ["<credentials-name>"]
-            },
-            "list": "List all current saved credentials",
-            "remove": {
-                "description": "Delete credentials from registry",
-                "args": ["<credentials-name>"],
-                "flags": {
-                    "f": {
-                        "alias": "force",
-                        "description": "Don't ask nothing, just do it"
-                    }
-                }
-            },
-            "default": {
-                "description": "Manage the default credentials used in requests",
-                "operations": {
-                    "get": "Print the key",
-                    "set": {
-                        "description": "Set the key",
-                        "args": ["<credentials-key>"]
-                    },
-                    "remove": {
-                        "description": "Delete the key",
-                        "flags": {
-                            "f": {
-                                "alias": "force",
-                                "description": "Don't ask nothing, just do it"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    },
+    "$schema": "https://gist.githubusercontent.com/Giancarl021/127020c9cecb032beff587e308bec4ca/raw/af14cd087c7f3f2f1b1d6a6daec6f82699a44973/@giancarl021__cli-core__help-descriptor.schema.json",
     "token": {
-        "description": "Get the access token to use the Graph API to the tenant",
+        "description": "Retrieve a valid access token for specific credentials",
         "flags": {
-            "c": {
-                "alias": "credentials",
-                "description": "The credentials used in the request"
+            "credentials": {
+                "aliases": ["c"],
+                "description": "The credentials ID to be used. If omitted will use the default credentials if set, otherwise will fail",
+                "values": ["<credentials-id>"]
             },
-            "version": {
-                "description": "The Graph API version"
-            },
-            "save": {
-                "description": "The directory to save the response"
+            "graph-version": {
+                "aliases": ["v"],
+                "description": "The Graph API version to be used. If omitted will be 'v1.0'",
+                "values": ["v1.0", "beta"]
             }
         }
     },
     "unit": {
-        "description": "Returns unitary data (without pagination)",
-        "args": ["<url>"],
+        "description": "Retrieve a entity from Graph API for specific credentials",
+        "args": ["endpoint"],
         "flags": {
-            "c": {
-                "alias": "credentials",
-                "description": "The credentials used in the request"
+            "credentials": {
+                "aliases": ["c"],
+                "description": "The credentials ID to be used. If omitted will use the default credentials if set, otherwise will fail",
+                "values": ["<credentials-id>"]
             },
-            "version": {
-                "description": "The Graph API version"
-            },
-            "method": {
-                "description": "HTTP Method",
-                "value": "GET | POST | PUT | DELETE"
-            },
-            "body": {
-                "description": "The body of the request",
-                "value": "<Valid JSON>"
-            },
-            "headers": {
-                "description": "The custom headers of the request",
-                "value": "<Valid JSON>"
+            "graph-version": {
+                "aliases": ["v"],
+                "description": "The Graph API version to be used. If omitted will be 'v1.0'",
+                "values": ["v1.0", "beta"]
             },
             "cache": {
-                "description": "Time To Live of cache in this specific request",
-                "value": "<seconds>"
+                "aliases": ["C"],
+                "description": "Cache this specific request. Default false"
             },
-            "save": {
-                "description": "The directory to save the response"
+            "body": {
+                "aliases": ["b"],
+                "description": "The body of the request",
+                "values": ["<request-body>"]
             },
-            "truncate": {
-                "description": "Truncate the response to length of 2000 or specified value",
-                "value": "null | <length>"
+            "method": {
+                "aliases": ["m"],
+                "description": "The method of the request. Default 'GET'",
+                "values": ["GET", "POST", "PUT", "PATCH", "DELETE"]
             },
-            "no-print": {
-                "description": "Don't show the response on terminal"
-            },
-            "fields": {
-                "description": "Filter what fields in the response will return",
-                "value": "<field[ as name][,field[ as name][,...]]>"
+            "headers": {
+                "aliases": ["H"],
+                "description": "The headers of the request. Format: 'Key1: Value1; Key2: Value2; ...KeyN: ValueN'. Default ''. NOTE: The access token does not need to be set here"
             }
         }
     },
     "list": {
-        "description": "Returns paginated data",
-        "args": ["<url>"],
+        "description": "Retrieve a list of entities from Graph API for specific credentials",
+        "args": ["endpoint"],
         "flags": {
-            "c": {
-                "alias": "credentials",
-                "description": "The credentials used in the request"
+            "credentials": {
+                "aliases": ["c"],
+                "description": "The credentials ID to be used. If omitted will use the default credentials if set, otherwise will fail",
+                "values": ["<credentials-id>"]
             },
-            "version": {
-                "description": "The Graph API version"
-            },
-            "method": {
-                "description": "HTTP Method",
-                "value": "GET | POST | PUT | DELETE"
-            },
-            "body": {
-                "description": "The body of the request",
-                "value": "<Valid JSON>"
-            },
-            "headers": {
-                "description": "The custom headers of the request",
-                "value": "<Valid JSON>"
+            "graph-version": {
+                "aliases": ["v"],
+                "description": "The Graph API version to be used. If omitted will be 'v1.0'",
+                "values": ["v1.0", "beta"]
             },
             "cache": {
-                "description": "Time To Live of cache in this specific request",
-                "value": "<seconds>"
+                "aliases": ["C"],
+                "description": "Cache this specific request. Default false"
             },
-            "save": {
-                "description": "The directory to save the response"
+            "body": {
+                "aliases": ["b"],
+                "description": "The body of the request",
+                "values": ["<request-body>"]
             },
-            "truncate": {
-                "description": "Truncate the response to length of 2000 or specified value",
-                "value": "null | <length>"
+            "method": {
+                "aliases": ["m"],
+                "description": "The method of the request. Default 'GET'",
+                "values": ["GET", "POST", "PUT", "PATCH", "DELETE"]
             },
-            "no-print": {
-                "description": "Don't show the response on terminal"
-            },
-            "map": {
-                "description": "Map the response array before return",
-                "value": "<JavaScript function>"
-            },
-            "filter": {
-                "description": "Filter the response array before return",
-                "value": "<JavaScript function>"
-            },
-            "reduce": {
-                "description": "Convert all the objects in the response into one accumulator",
-                "value": "<JavaScript function>"
+            "headers": {
+                "aliases": ["H"],
+                "description": "The headers of the request. Format: 'Key1: Value1; Key2: Value2; ...KeyN: ValueN'. Default ''. NOTE: The access token does not need to be set here"
             },
             "limit": {
-                "description": "The maximum of pages retrieved",
-                "value": "<integer>"
+                "description": "The limit of pages retrieved in the pagination",
+                "values": ["<page-limit>"]
             },
             "offset": {
-                "description": "The first page number to start retrieving data",
-                "value": "<integer>"
+                "description": "The number of skipped pages after saving the data in the pagination",
+                "values": ["<page-offset>"]
             }
         }
     },
     "massive": {
-        "description": "Returns batch data",
-        "args": [
-            "<url pattern>",
-            "<foo:value[,value[,...]];bar:value[,value[,...]>"
-        ],
+        "description": "Retrieve multiple entities from Graph API for specific credentials based on pattern-generated endpoints",
+        "args": ["pattern/for/{<index>}/interpolation", "@from:<path/to/array-or-array-of-arrays.json> | 0a,0b,0c[;1a,1b,1c[;...Na,Nb,Nc]]"],
         "flags": {
-            "c": {
-                "alias": "credentials",
-                "description": "The credentials used in the request"
+            "credentials": {
+                "aliases": ["c"],
+                "description": "The credentials ID to be used. If omitted will use the default credentials if set, otherwise will fail",
+                "values": ["<credentials-id>"]
             },
-            "version": {
-                "description": "The Graph API version"
-            },
-            "method": {
-                "description": "HTTP Method",
-                "value": "GET | POST | PUT | DELETE"
-            },
-            "body": {
-                "description": "The body of the request",
-                "value": "<Valid JSON>"
-            },
-            "headers": {
-                "description": "The custom headers of the request",
-                "value": "<Valid JSON>"
+            "graph-version": {
+                "aliases": ["v"],
+                "description": "The Graph API version to be used. If omitted will be 'v1.0'",
+                "values": ["v1.0", "beta"]
             },
             "cache": {
-                "description": "Time To Live of cache in this specific request",
-                "value": "<seconds>"
+                "aliases": ["C"],
+                "description": "Cache this specific request. Default false"
             },
-            "save": {
-                "description": "The directory to save the response"
+            "body": {
+                "aliases": ["b"],
+                "description": "The body of the request",
+                "values": ["<request-body>"]
             },
-            "truncate": {
-                "description": "Truncate the response to length of 2000 or specified value",
-                "value": "null | <length>"
+            "method": {
+                "aliases": ["m"],
+                "description": "The method of the request. Default 'GET'",
+                "values": ["GET", "POST", "PUT", "PATCH", "DELETE"]
             },
-            "no-print": {
-                "description": "Don't show the response on terminal"
+            "headers": {
+                "aliases": ["H"],
+                "description": "The headers of each individual request. Format: 'Key1: Value1; Key2: Value2; ...KeyN: ValueN'. Default ''"
             },
-            "binder": {
-                "description": "The key present in the values parameter to be the key pattern of the response",
-                "value": "<key>",
-                "required": true
-            },
-            "type": {
-                "description": "The type of the requests of the batch",
-                "value": "unit | list",
-                "required": true
-            },
-            "async": {
-                "description": "If the batch requests will be made in async mode or in linear mode",
-                "value": "true | false"
+            "batch-headers": {
+                "description": "The headers of each Graph API $batch request. Format: 'Key1: Value1; Key2: Value2; ...KeyN: ValueN'. Default ''"
             },
             "attempts": {
-                "description": "The number of failed attempts before crash",
-                "value": "<maximum failed attempts>"
+                "description": "The number of attempts with the same error count until failure",
+                "values": ["<number-of-attempts>"]
             },
-            "requests": {
-                "description": "The quantity of batch requests made at the same time in async mode",
-                "value": "<quantity>"
+            "requests-per-attempt": {
+                "description": "The number of parallel requests sent at each cycle",
+                "values": ["<number-of-requests>"]
+            },
+            "binder-index": {
+                "description": "The index of the array used to bind the results. Default 0. Only useful when using multiple-value interpolation",
+                "values": ["<index>"]
+            },
+            "nullify-errors": {
+                "aliases": ["nullify", "lossy"],
+                "description": "If the attempts reach their limit, the pending responses will return null. Default false"
             }
         }
     },
-    "request": {
-        "description": "Manages the stored requests",
-        "operations": {
-            "get": {
-                "description": "Print the request content",
-                "args": ["<request name>"]
-            },
+    "credentials": {
+        "description": "Manage Graph API credentials",
+        "subcommands": {
+            "list": "Lists the keys of all saved credentials",
             "set": {
-                "description": "Create an new request",
-                "args": ["<request name>"],
+                "description": "Creates or updates a credential",
+                "args": ["key"],
                 "flags": {
-                    "f": {
-                        "alias": "force",
-                        "description": "Don't ask nothing, just do it"
+                    "client-id": {
+                        "aliases": ["c"],
+                        "description": "The Azure App Registration Client ID",
+                        "optional": false,
+                        "values": ["<client-id>"]
+                    },
+                    "client-secret": {
+                        "aliases": ["s"],
+                        "description": "The Azure App Registration Client Secret",
+                        "optional": false,
+                        "values": ["<client-secret>"]
+                    },
+                    "tenant-id": {
+                        "aliases": ["t"],
+                        "description": "The Azure App Registration Tenant ID",
+                        "optional": false,
+                        "values": ["<tenant-id>"]
+                    },
+                    "delegated": {
+                        "aliases": ["d"],
+                        "description": "Set the authentication process for this credentials as delegated (user-based login). Default false"
+                    },
+                    "no-delegated": {
+                        "aliases": ["no-d"],
+                        "description": "Set the authentication process for this credentials as application (application-based login). Default true"
+                    },
+                    "force": {
+                        "aliases": ["f"],
+                        "description": "If a credential with the same key already exists, overwrite"
                     }
                 }
             },
-            "list": "List all current stored requests",
+            "get": {
+                "description": "Gets a saved credential",
+                "args": ["key"]
+            },
             "remove": {
-                "description": "Delete an request",
-                "args": ["<request name>"],
-                "flags": {
-                    "f": {
-                        "alias": "force",
-                        "description": "Don't ask nothing, just do it"
+                "args": ["key"],
+                "description": "Removes a saved credential"
+            },
+            "default": {
+                "description": "Manage the default credential used in request commands",
+                "subcommands": {
+                    "get": "Gets the current default credential key saved",
+                    "unset": "Removes the current default credential key saved",
+                    "set": {
+                        "description": "Sets a new default credential key",
+                        "args": ["key"]
                     }
                 }
             }
         }
     },
-    "import": {
-        "description": "Import an .gphr or .gphrc request file",
-        "args": ["<path to file>"],
-        "flags": {
-            "p": {
-                "alias": "password",
-                "description": "In-line import and decrypt an .gphrc file with the file password"
+    "template": {
+        "description": "Manage request templates for reuse",
+        "subcommands": {
+            "save": {
+                "args": ["unit | list | massive", "...custom-arguments"],
+                "description": "Saves a request with custom parameters set to simplify long commands",
+                "flags": {
+                    "credentials": {
+                        "aliases": ["c"],
+                        "description": "The credentials ID to be saved on the template. If omitted will set to runtime default",
+                        "values": ["<credentials-id>"]
+                    },
+                    "output": {
+                        "aliases": ["o"],
+                        "description": "The output path to the template file to be created",
+                        "optional": false
+                    },
+                    "...custom-flags": {
+                        "description": "Any custom flag to be added to the request",
+                        "values": ["<...any>"]
+                    }
+                }
+            },
+            "run": {
+                "args": ["path/to/template-file.json", "...custom-arguments"],
+                "description": "Runs a request from a template file",
+                "flags": {
+                    "credentials": {
+                        "aliases": ["c"],
+                        "description": "The credentials ID to be used on the request. If omitted will use the template value",
+                        "values": ["<credentials-id>"]
+                    },
+                    "...custom-flags": {
+                        "description": "Any custom flag to be added to the request",
+                        "values": ["<...any>"]
+                    }
+                }
             }
         }
-    },
-    "export": {
-        "description": "Export an .gphr or .gphrc request file",
-        "args": ["<request name>", "<path to file>"],
-        "flags": {
-            "c": {
-                "alias": "credentials",
-                "description": "Set an stored credentials to bind with the request. By default set the flag \"lock\" to true"
-            },
-            "lock": {
-                "description": "Creates an password protection on the exported file"
-            },
-            "no-lock": {
-                "description": "Creates the exported file without password protection"
-            }
-        }
-    },
-    "exec": {
-        "description": "Execute an stored request",
-        "args": ["<request name>"],
-        "flags": "All the flags of the request type will overwrite the request options"
     }
 }
