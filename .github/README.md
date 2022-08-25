@@ -12,6 +12,12 @@ You can install this package globally on [NPM](http://npmjs.com/package/gph-cli)
 
 ## Usage
 
+The entrypoint is the following:
+
+```bash
+gph <command>
+```
+
 ### Commands
 [//]: # (Insert any custom documentation ABOVE this line)
 [//]: # (DOCS_START)
