@@ -7,6 +7,3 @@ Removes a saved credential
 ```bash
 gph-cli credentials remove <key>
 ```
-
-
-

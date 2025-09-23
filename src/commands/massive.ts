@@ -4,7 +4,7 @@ import { existsSync as exists } from 'fs';
 import { readFile } from 'fs/promises';
 import locate from '@giancarl021/locate';
 
-import Graph from '../services/graph';
+import Graph from '../services/Graph';
 
 import constants from '../util/constants';
 import validateRequestCommandInput, {
@@ -44,11 +44,11 @@ const command: Command = async function () {
         if (typeof data !== 'object' || !Array.isArray(data))
             throw new Error('Invalid JSON format');
 
-        values = (data as any[]).map((item) =>
+        values = (data as any[]).map(item =>
             Array.isArray(item) ? item.map(String) : String(item)
         ) as string[] | string[][];
     } else {
-        values = _values.split(';').map((list) => list.split(','));
+        values = _values.split(';').map(list => list.split(','));
     }
 
     if (!values.length) throw new Error('No interpolation values provided');

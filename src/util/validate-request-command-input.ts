@@ -1,4 +1,4 @@
-import { CommandInternal } from '@giancarl021/cli-core/interfaces';
+import { CommandInternal } from '@giancarl021/cli-core';
 import { HttpHeaders } from 'graph-interface/lib/interfaces';
 
 import { Credentials } from '../interfaces';
@@ -51,9 +51,9 @@ export function parseHeaders(
     const headers = commandThis.helpers.hasFlag(first, ...aliases)
         ? String(commandThis.helpers.getFlag(first, ...aliases))
               .split(';')
-              .map((e) => e.trim())
+              .map(e => e.trim())
               .reduce((obj: HttpHeaders, item: string) => {
-                  const [key, value] = item.split(':').map((e) => e.trim());
+                  const [key, value] = item.split(':').map(e => e.trim());
 
                   obj[key] = value;
 

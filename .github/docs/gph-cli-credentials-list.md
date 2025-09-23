@@ -7,6 +7,3 @@ Lists the keys of all saved credentials
 ```bash
 gph-cli credentials list
 ```
-
-
-

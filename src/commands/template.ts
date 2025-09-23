@@ -84,8 +84,8 @@ const commands: Commands = {
         const key = this.helpers.hasFlag('credentials', 'c')
             ? this.helpers.getFlag('c', 'credentials')!.toString()
             : template.credentialsId === '@default'
-            ? this.extensions.vault.getData('credentials.default')
-            : template.credentialsId;
+              ? this.extensions.vault.getData('credentials.default')
+              : template.credentialsId;
 
         const credentials: Credentials | null = JSON.parse(
             (await this.extensions.vault.getSecret(key)) ?? 'null'

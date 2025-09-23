@@ -1,142 +1,178 @@
-import { Commands } from '@giancarl021/cli-core/interfaces';
+import { defineCommand } from '@giancarl021/cli-core';
+import {
+    getCredentials,
+    formatCredentials,
+    hasCredentials,
+    removeCredentials,
+    setCredentials,
+    listCredentialKeys
+} from '../util/credentials';
 import { Credentials } from '../interfaces';
+import { prompt, flagOrPrompt } from '../util/prompt';
+import hash from '../util/hash';
 
-const credentialsKeyRegex = /^[0-9a-z]+$/i;
+export default defineCommand({
+    async set() {
+        const { key } = this.helpers.requireArgs('key');
 
-function checkKey(key: string) {
-    if (!key) throw new Error('No key provided');
+        const quiet = this.helpers.hasFlag('quiet', 'q');
+        const showSecret = this.helpers.hasFlag('show-sensitive-information');
+        const jsonOutput = this.extensions.json.hasJsonOutput();
+        const setDefault = this.helpers.hasFlag('default', 'D');
 
-    if (!credentialsKeyRegex.test(key)) throw new Error('Invalid key name');
-}
-
-const commands: Commands = {
-    async set(args) {
-        const [key] = args;
-
-        checkKey(key);
-
-        const clientId = this.helpers.getFlag('client-id', 'c');
-        const clientSecret = this.helpers.getFlag('client-secret', 's');
-        const tenantId = this.helpers.getFlag('tenant-id', 't');
-
-        if (!clientId) throw new Error('No client id provided');
-        if (!clientSecret) throw new Error('No client secret provided');
-        if (!tenantId) throw new Error('No tenant id provided');
-
-        const isDelegated =
-            this.helpers.hasFlag('delegated', 'd') ||
-            !this.helpers.hasFlag('no-delegated', 'no-d');
-
-        const overwrite = this.helpers.hasFlag('force', 'f');
-
-        const credentials = {
+        const credentials: Credentials = {
             auth: {
-                clientId,
-                clientSecret,
-                tenantId
+                clientId: await flagOrPrompt(
+                    this.helpers,
+                    'client-id',
+                    ['c'],
+                    'Client ID'
+                ),
+                clientSecret: await flagOrPrompt(
+                    this.helpers,
+                    'client-secret',
+                    ['s'],
+                    'Client Secret'
+                ),
+                tenantId: await flagOrPrompt(
+                    this.helpers,
+                    'tenant-id',
+                    ['t'],
+                    'Tenant ID'
+                )
             },
-            isDelegated
-        } as Credentials;
+            isDelegated: this.helpers.hasFlag('delegated', 'd')
+                ? this.helpers.getFlag('delegated', 'd') === true
+                : ['y', 'yes'].includes(
+                      (await prompt('Is Delegated (y/n)')).toLowerCase()
+                  )
+        };
 
-        const credentialsString = JSON.stringify(credentials);
+        await setCredentials(this.extensions.vault, key, credentials);
 
-        const hasSecret = Boolean(await this.extensions.vault.getSecret(key));
+        if (setDefault) {
+            await this.extensions.vault.data.set('credentials.default', key);
+        }
 
-        if (!overwrite && hasSecret)
-            throw new Error(
-                'Credentials already exists, use "--force" to overwrite'
-            );
+        if (quiet || jsonOutput) return key;
 
-        await this.extensions.vault.setSecret(key, credentialsString);
-
-        const keys = this.extensions.vault.getData('credentials.keys');
-        keys.push(key);
-        this.extensions.vault.setData('credentials.keys', [...new Set(keys)]);
-
-        return 'Credentials set';
+        return formatCredentials(this.logger, key, credentials, showSecret);
     },
+    async get() {
+        const { key } = this.helpers.requireArgs('key');
 
-    async get(args) {
-        const [key] = args;
+        const quiet = this.helpers.hasFlag('quiet', 'q');
+        const jsonOutput = this.extensions.json.hasJsonOutput();
+        const showSecret = this.helpers.hasFlag('show-sensitive-information');
 
-        checkKey(key);
+        const credentials = await getCredentials(this.extensions.vault, key);
 
-        const credentialsString = await this.extensions.vault.getSecret(key);
+        if (jsonOutput)
+            return this.extensions.json.format({
+                id: hash(key),
+                key,
+                ...credentials
+            });
+        if (quiet) return key;
 
-        if (!credentialsString)
-            throw new Error(`Credentials "${key}" not found`);
-
-        const credentials = JSON.parse(credentialsString) as Credentials;
-
-        return `${key} Credentials:
-    Client Id: ${credentials.auth.clientId}
-    Client Secret: ${credentials.auth.clientSecret}
-    Tenant Id: ${credentials.auth.tenantId}
-    Delegated: ${credentials.isDelegated ? 'Yes' : 'No'}`;
+        return formatCredentials(this.logger, key, credentials, showSecret);
     },
+    async list() {
+        const quiet = this.helpers.hasFlag('quiet', 'q');
+        const jsonOutput = this.extensions.json.hasJsonOutput();
 
-    list() {
-        const keyList = this.extensions.vault.getData('credentials.keys');
+        const allCredentials = await listCredentialKeys(this.extensions.vault);
 
-        if (!keyList.length) return 'No credentials stored';
+        if (jsonOutput) return this.extensions.json.format(allCredentials);
 
-        const out = keyList.map((c: string) => `    * ${c}`).join('\n');
+        if (!allCredentials.length) {
+            if (quiet) return this.NO_OUTPUT;
 
-        return `Credentials List:\n${out}`;
+            return 'No credentials stored';
+        }
+
+        if (quiet) return allCredentials.join('\n');
+
+        return `${this.logger.colors.whiteBright('Credentials List:')}
+${allCredentials.map(c => `  * ${this.logger.colors.yellowBright(c)}`).join('\n')}`;
     },
+    async remove() {
+        const { key } = this.helpers.requireArgs('key');
 
-    async remove(args) {
-        const [key] = args;
+        const quiet = this.helpers.hasFlag('quiet', 'q');
+        const jsonOutput = this.extensions.json.hasJsonOutput();
 
-        checkKey(key);
+        await removeCredentials(this.extensions.vault, key);
 
-        const hasSecret = Boolean(await this.extensions.vault.getSecret(key));
+        if (quiet || jsonOutput) return key;
 
-        if (!hasSecret) throw new Error(`Credentials "${key}" not set`);
-
-        await this.extensions.vault.removeSecret(key);
-
-        const keys = this.extensions.vault.getData('credentials.keys');
-        keys.splice(keys.indexOf(key), 1);
-        this.extensions.vault.setData('credentials.keys', keys);
-
-        const defaultCredentials = this.extensions.vault.getData(
-            'credentials.default'
-        );
-
-        if (defaultCredentials === key)
-            this.extensions.vault.setData('credentials.default', null);
-
-        return `Credentials "${key}" removed`;
+        return `Credentials "${this.logger.colors.yellowBright(key)}" removed`;
     },
-
     default: {
-        set(args) {
-            const [key] = args;
+        async set() {
+            const { key } = this.helpers.requireArgs('key');
+            const quiet = this.helpers.hasFlag('quiet', 'q');
+            const jsonOutput = this.extensions.json.hasJsonOutput();
 
-            checkKey(key);
+            if (!(await hasCredentials(this.extensions.vault, key)))
+                throw new Error(`Credentials "${key}" not found`);
 
-            this.extensions.vault.setData('credentials.default', key);
+            await this.extensions.vault.data.set('credentials.default', key);
 
-            return `Default Credentials set to "${key}"`;
+            if (quiet || jsonOutput) return key;
+
+            return `Default credentials set to "${this.logger.colors.yellowBright(key)}"`;
         },
-
-        get() {
-            const defaultCredentials = this.extensions.vault.getData(
+        async get() {
+            const defaultKey = await this.extensions.vault.data.get(
                 'credentials.default'
             );
 
-            if (!defaultCredentials) return 'No default credentials set';
+            const quiet = this.helpers.hasFlag('quiet', 'q');
+            const jsonOutput = this.extensions.json.hasJsonOutput();
+            const showSecret = this.helpers.hasFlag(
+                'show-sensitive-information'
+            );
 
-            return `Default Credentials: ${defaultCredentials}`;
+            if (!defaultKey) throw new Error('No default credentials set');
+
+            const credentials = await getCredentials(
+                this.extensions.vault,
+                defaultKey
+            );
+
+            if (jsonOutput)
+                return this.extensions.json.format({
+                    key: defaultKey,
+                    ...credentials
+                });
+            if (quiet) return defaultKey;
+
+            return formatCredentials(
+                this.logger,
+                defaultKey,
+                credentials,
+                showSecret
+            );
         },
+        async remove() {
+            const defaultKey = await this.extensions.vault.data.get(
+                'credentials.default'
+            );
 
-        unset() {
-            this.extensions.vault.setData('credentials.default', null);
+            const quiet = this.helpers.hasFlag('quiet', 'q');
+            const jsonOutput = this.extensions.json.hasJsonOutput();
 
-            return 'Default Credentials unset';
+            if (!defaultKey) throw new Error('No default credentials set');
+
+            await this.extensions.vault.data.set(
+                'credentials.default',
+                undefined
+            );
+
+            if (quiet || jsonOutput) return defaultKey;
+
+            return `Default credentials "${this.logger.colors.yellowBright(defaultKey)}" removed`;
         }
     }
-};
-
-export default commands;
+});

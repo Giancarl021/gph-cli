@@ -1,45 +1,50 @@
 #!/usr/bin/env node
 
 import CliCore from '@giancarl021/cli-core';
-import { HelpDescriptor } from '@giancarl021/cli-core/interfaces';
-import { Behavior } from '@giancarl021/cli-core/interfaces';
-import CliCoreVaultExtension from '@giancarl021/cli-core-vault-extension';
+import VaultExtension from '@giancarl021/cli-core-vault-extension';
+import './src/util/types';
 
-import vaultExtensionOptions from './src/util/vaultExtensionOptions';
 import * as commands from './src/commands';
 import help from './src/util/help.json';
+import getExecutionMode, { ExecutionModes } from './src/util/getExecutionMode';
+import JsonExtension from './src/services/JsonExtension';
 
-const APP_NAME = 'gph';
-const DEBUG_MODE = String(process.env.GPH_DEBUG).toLowerCase() === 'true';
+const appName = 'gph';
+const executionMode = getExecutionMode();
 
-async function main() {
-    const behavior: Behavior = {};
-    const _help: any = help;
-    delete _help['$schema'];
-
-    if (DEBUG_MODE) {
-        behavior.exitOnError = false;
-        behavior.returnResult = true;
-    }
-
-    const runner = CliCore(APP_NAME, {
-        appDescription: 'CLI wrapper of graph-interface',
-        args: {
-            flags: {
-                helpFlags: ['?', 'h', 'help']
+const app = CliCore({
+    appName,
+    appDescription: 'CLI wrapper of graph-interface',
+    behavior: {
+        debugMode: executionMode >= ExecutionModes.debug,
+        extensionLogging: executionMode >= ExecutionModes.trace
+    },
+    commands,
+    help,
+    extensions: [
+        JsonExtension(),
+        VaultExtension({
+            initialData: {
+                credentials: {
+                    default: undefined,
+                    items: {}
+                }
+            },
+            tempInitialData: {
+                cache: {}
             }
-        },
-        behavior,
-        commands,
-        help: _help as HelpDescriptor,
-        extensions: [CliCoreVaultExtension(vaultExtensionOptions)]
-    });
+        })
+    ]
+});
 
-    return await runner.run();
-}
+const process = app.run();
 
-const commandPromise = main();
-
-if (DEBUG_MODE) {
-    commandPromise.then(console.log).catch(console.error);
+if (executionMode >= ExecutionModes.debug) {
+    process
+        .then(result => {
+            console.log(result);
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }

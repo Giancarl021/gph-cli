@@ -1,36 +1,86 @@
-import Graph from '../services/graph';
-import { Command } from '@giancarl021/cli-core/interfaces';
-import { Credentials } from '../interfaces';
+import { defineCommand } from '@giancarl021/cli-core';
+import Graph from '../services/Graph';
+import { getCredentialsOrDefault } from '../util/credentials';
+import { jwtDecode } from 'jwt-decode';
 
-const command: Command = async function () {
-    const key = this.helpers.valueOrDefault(
-        this.helpers.getFlag('c', 'credentials')?.toString(),
-        this.extensions.vault.getData('credentials.default')
+export default defineCommand(async function () {
+    const { credentials, key } = await getCredentialsOrDefault(
+        this.extensions.vault,
+        this.helpers
     );
 
-    const graphVersion = this.helpers.valueOrDefault(
-        this.helpers.getFlag('v', 'graph-version'),
-        'v1.0'
-    );
+    const jsonOutput = this.extensions.json.hasJsonOutput();
+    const parseJwt = this.helpers.hasFlag('parse-jwt');
+    const parseJwtFlag = String(
+        this.helpers.getFlag('parse-jwt')
+    ).toLowerCase();
+    let parseJwtPart: 'header' | 'payload' | 'signature' | 'all' = 'all';
 
-    if (!key) throw new Error('No credentials provided');
-
-    const credentials: Credentials | null = JSON.parse(
-        (await this.extensions.vault.getSecret(key)) ?? 'null'
-    );
-
-    if (!credentials) throw new Error('Credentials not found');
+    if (['header', 'payload', 'signature'].includes(parseJwtFlag)) {
+        parseJwtPart = parseJwtFlag as
+            | 'header'
+            | 'payload'
+            | 'signature'
+            | 'all';
+    }
 
     const graph = Graph(
-        this,
+        this.extensions.vault,
+        key,
         credentials.auth,
         credentials.isDelegated,
-        graphVersion
+        this.helpers.getFlag('v', 'graph-version')?.toString() === 'beta'
+            ? 'beta'
+            : 'v1.0'
     );
 
-    const token = await graph.getAccessToken();
+    const accessToken = await graph.getAccessToken();
 
-    return token;
-};
+    if (parseJwt) {
+        const header = jwtDecode(accessToken, { header: true });
+        const payload = jwtDecode(accessToken);
+        const signature = accessToken.split('.')[2];
 
-export default command;
+        if (jsonOutput) {
+            switch (parseJwtPart) {
+                case 'header':
+                    return this.extensions.json.format({ header });
+                case 'payload':
+                    return this.extensions.json.format({ payload });
+                case 'signature':
+                    return this.extensions.json.format({ signature });
+                default:
+                    return this.extensions.json.format({
+                        header,
+                        payload,
+                        signature
+                    });
+            }
+        }
+
+        switch (parseJwtPart) {
+            case 'header':
+                return this.logger.colors.greenBright(
+                    this.extensions.json.format(header)
+                );
+            case 'payload':
+                return this.logger.colors.yellowBright(
+                    this.extensions.json.format(payload)
+                );
+            case 'signature':
+                return this.logger.colors.redBright(signature);
+            default:
+                return `${this.logger.colors.greenBright(
+                    this.extensions.json.format(header)
+                )}
+${this.logger.colors.gray('.')}
+${this.logger.colors.yellowBright(this.extensions.json.format(payload))}
+${this.logger.colors.gray('.')}
+${this.logger.colors.redBright(signature)}`;
+        }
+    }
+
+    if (jsonOutput) return this.extensions.json.format({ accessToken });
+
+    return accessToken;
+});

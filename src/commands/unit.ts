@@ -1,7 +1,7 @@
 import { Command } from '@giancarl021/cli-core/interfaces';
 import { UnitOptions } from 'graph-interface/lib/interfaces';
 
-import Graph from '../services/graph';
+import Graph from '../services/Graph';
 
 import constants from '../util/constants';
 import validateRequestCommandInput from '../util/validate-request-command-input';

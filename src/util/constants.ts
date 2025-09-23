@@ -1,6 +1,10 @@
 export default {
+    credentials: {
+        regex: /^[a-zA-Z0-9-_]+$/,
+        reservedKeys: ['default'] as string[]
+    },
     graph: {
-        version: 'v1.0'
+        defaultVersion: 'v1.0'
     },
     template: {
         availableCommands: ['unit', 'list', 'massive']
@@ -10,4 +14,4 @@ export default {
             return JSON.stringify(data, null, 2);
         }
     }
-};
+} as const;

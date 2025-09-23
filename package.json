@@ -1,6 +1,6 @@
 {
     "name": "gph-cli",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "CLI wrapper of graph-interface",
     "main": "lib/index.js",
     "repository": "https://github.com/Giancarl021/gph-cli.git",
@@ -14,30 +14,32 @@
         "gph": "lib/index.js"
     },
     "scripts": {
-        "dev": "GPH_DEBUG=TRUE ts-node index.ts",
-        "format": "prettier -w --config .prettierrc --ignore-path .gitignore .",
-        "start": "node lib/index.js",
-        "prestart": "yarn build",
-        "build": "tsc",
-        "prepublishOnly": "yarn build"
+        "start": "GPH_DEBUG=0 tsx index.ts",
+        "dev": "GPH_DEBUG=1 tsx index.ts",
+        "trace": "GPH_DEBUG=2 tsx index.ts",
+        "format": "prettier -w .",
+        "build": "tsc"
     },
     "dependencies": {
-        "@giancarl021/cli-core": "^0.1.3",
-        "@giancarl021/cli-core-vault-extension": "^0.1.4",
-        "@giancarl021/locate": "^0.1.6",
-        "graph-interface": "^1.0.1",
-        "graph-interface-desktop-provider": "^1.0.2"
+        "@giancarl021/cli-core": "^1.0.5",
+        "@giancarl021/cli-core-vault-extension": "^1.0.1",
+        "graph-interface": "^1.0.2",
+        "graph-interface-desktop-provider": "^1.0.2",
+        "jwt-decode": "^4.0.0",
+        "strip-ansi": "^7.1.2"
     },
     "devDependencies": {
-        "@types/node": "^18.0.0",
-        "prettier": "^2.7.1",
-        "ts-node": "^10.8.1",
-        "typescript": "^4.7.4"
+        "@types/node": "^24.0.3",
+        "husky": "^9.1.7",
+        "prettier": "^3.6.0",
+        "tsx": "^4.20.5",
+        "typescript": "^5.8.3"
     },
     "keywords": [
         "Azure AD",
         "Microsoft",
         "Microsoft Graph API",
         "Graph API"
-    ]
+    ],
+    "packageManager": "pnpm@10.12.3+sha512.467df2c586056165580ad6dfb54ceaad94c5a30f80893ebdec5a44c5aa73c205ae4a5bb9d5ed6bb84ea7c249ece786642bbb49d06a307df218d03da41c317417"
 }

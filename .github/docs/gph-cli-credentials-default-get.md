@@ -7,6 +7,3 @@ Gets the current default credential key saved
 ```bash
 gph-cli credentials default get
 ```
-
-
-

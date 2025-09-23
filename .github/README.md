@@ -19,15 +19,16 @@ gph <command>
 ```
 
 ### Commands
-[//]: # (Insert any custom documentation ABOVE this line)
-[//]: # (DOCS_START)
 
-* [token](docs/gph-cli-token.md): Retrieve a valid access token for specific credentials;
-* [unit](docs/gph-cli-unit.md): Retrieve a entity from Graph API for specific credentials;
-* [list](docs/gph-cli-list.md): Retrieve a list of entities from Graph API for specific credentials;
-* [massive](docs/gph-cli-massive.md): Retrieve multiple entities from Graph API for specific credentials based on pattern-generated endpoints;
-* [credentials](docs/gph-cli-credentials.md): Manage Graph API credentials;
-* [template](docs/gph-cli-template.md): Manage request templates for reuse.
+[//]: # 'Insert any custom documentation ABOVE this line'
+[//]: # 'DOCS_START'
 
-[//]: # (DOCS_END)
-[//]: # (Insert any custom documentation BELOW this line)
+- [token](docs/gph-cli-token.md): Retrieve a valid access token for specific credentials;
+- [unit](docs/gph-cli-unit.md): Retrieve a entity from Graph API for specific credentials;
+- [list](docs/gph-cli-list.md): Retrieve a list of entities from Graph API for specific credentials;
+- [massive](docs/gph-cli-massive.md): Retrieve multiple entities from Graph API for specific credentials based on pattern-generated endpoints;
+- [credentials](docs/gph-cli-credentials.md): Manage Graph API credentials;
+- [template](docs/gph-cli-template.md): Manage request templates for reuse.
+
+[//]: # 'DOCS_END'
+[//]: # 'Insert any custom documentation BELOW this line'

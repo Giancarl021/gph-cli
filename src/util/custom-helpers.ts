@@ -9,7 +9,7 @@ export default function (args: string[], flags: Flags): CommandHelpers {
     function getFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        const n = arr.find((n) => flags.hasOwnProperty(n));
+        const n = arr.find(n => flags.hasOwnProperty(n));
 
         if (typeof n === 'undefined') return n;
 
@@ -19,13 +19,13 @@ export default function (args: string[], flags: Flags): CommandHelpers {
     function hasFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        return arr.some((n) => flags.hasOwnProperty(n));
+        return arr.some(n => flags.hasOwnProperty(n));
     }
 
     function whichFlag(flagName: string, ...aliases: string[]) {
         const arr = [flagName, ...aliases];
 
-        const n = arr.find((n) => flags.hasOwnProperty(n));
+        const n = arr.find(n => flags.hasOwnProperty(n));
 
         return n;
     }

@@ -7,6 +7,3 @@ Gets a saved credential
 ```bash
 gph-cli credentials get <key>
 ```
-
-
-

@@ -93,7 +93,10 @@
     },
     "massive": {
         "description": "Retrieve multiple entities from Graph API for specific credentials based on pattern-generated endpoints",
-        "args": ["pattern/for/{<index>}/interpolation", "@from:<path/to/array-or-array-of-arrays.json> | 0a,0b,0c[;1a,1b,1c[;...Na,Nb,Nc]]"],
+        "args": [
+            "pattern/for/{<index>}/interpolation",
+            "@from:<path/to/array-or-array-of-arrays.json> | 0a,0b,0c[;1a,1b,1c[;...Na,Nb,Nc]]"
+        ],
         "flags": {
             "credentials": {
                 "aliases": ["c"],
