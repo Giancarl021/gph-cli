@@ -71,7 +71,13 @@ export default defineCommand({
             return this.extensions.json.format({
                 id: hash(key),
                 key,
-                ...credentials
+                ...credentials,
+                auth: {
+                    ...credentials.auth,
+                    clientSecret: showSecret
+                        ? credentials.auth.clientSecret
+                        : undefined
+                }
             });
         if (quiet) return key;
 

@@ -44,11 +44,11 @@ export default defineCommand(async function () {
         if (jsonOutput) {
             switch (parseJwtPart) {
                 case 'header':
-                    return this.extensions.json.format({ header });
+                    return this.extensions.json.format(header);
                 case 'payload':
-                    return this.extensions.json.format({ payload });
+                    return this.extensions.json.format(payload);
                 case 'signature':
-                    return this.extensions.json.format({ signature });
+                    return this.extensions.json.format(signature);
                 default:
                     return this.extensions.json.format({
                         header,
@@ -60,23 +60,21 @@ export default defineCommand(async function () {
 
         switch (parseJwtPart) {
             case 'header':
-                return this.logger.colors.greenBright(
-                    this.extensions.json.format(header)
-                );
+                return this.logger.format.json(header);
             case 'payload':
-                return this.logger.colors.yellowBright(
-                    this.extensions.json.format(payload)
-                );
+                return this.logger.format.json(payload);
             case 'signature':
-                return this.logger.colors.redBright(signature);
+                return signature;
             default:
-                return `${this.logger.colors.greenBright(
-                    this.extensions.json.format(header)
-                )}
-${this.logger.colors.gray('.')}
-${this.logger.colors.yellowBright(this.extensions.json.format(payload))}
-${this.logger.colors.gray('.')}
-${this.logger.colors.redBright(signature)}`;
+                return `${this.logger.colors.greenBright('[HEADER]')}
+${this.logger.format.json(header)}
+
+${this.logger.colors.yellowBright('[PAYLOAD]')}
+${this.logger.format.json(payload)}
+
+${this.logger.colors.redBright('[SIGNATURE]')}
+
+${signature}`;
         }
     }
 

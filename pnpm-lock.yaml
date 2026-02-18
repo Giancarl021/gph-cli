@@ -11,8 +11,8 @@ importers:
                 specifier: ^1.0.5
                 version: 1.0.5
             '@giancarl021/cli-core-vault-extension':
-                specifier: ^1.0.1
-                version: 1.0.1(@giancarl021/cli-core@1.0.5)
+                specifier: ^1.0.3
+                version: 1.0.3(@giancarl021/cli-core@1.0.5)
             graph-interface:
                 specifier: ^1.0.2
                 version: 1.0.2
@@ -284,10 +284,10 @@ packages:
             }
         engines: { node: '>=14' }
 
-    '@giancarl021/cli-core-vault-extension@1.0.1':
+    '@giancarl021/cli-core-vault-extension@1.0.3':
         resolution:
             {
-                integrity: sha512-CEMI/W1D2G6YcwSoe8m5t90gUWvVGngkadyo5l8UcWlmbh9xFBX7Wa+UMCD0G2BcaT3W9LA6mB8qQ+adXrjR7w==
+                integrity: sha512-6twgc9qDgOy6AR/Ryo1VbSj2U6FeuK+X+ecDX0jO5auJkesKlibzKTI/HtIv6TGLTJFb1AXCMc+o+ygDDhrF4A==
             }
         engines: { node: '>=22.0.0' }
         peerDependencies:
@@ -564,10 +564,10 @@ packages:
             }
         engines: { node: '>=0.4.0' }
 
-    detect-libc@2.1.0:
+    detect-libc@2.1.1:
         resolution:
             {
-                integrity: sha512-vEtk+OcP7VBRtQZ1EJ3bdgzSfBjgnEalLTp5zjJrS+2Z1w2KZly4SBdac/WDU3hhsNAZ9E8SC96ME4Ey8MZ7cg==
+                integrity: sha512-ecqj/sy1jcK1uWrwpR67UhYrIFQ+5WlGxth34WquCbamhFA6hkkwiu37o6J5xCHdo1oixJRfVRw+ywV+Hq/0Aw==
             }
         engines: { node: '>=8' }
 
@@ -1270,7 +1270,7 @@ snapshots:
 
     '@fastify/busboy@2.1.1': {}
 
-    '@giancarl021/cli-core-vault-extension@1.0.1(@giancarl021/cli-core@1.0.5)':
+    '@giancarl021/cli-core-vault-extension@1.0.3(@giancarl021/cli-core@1.0.5)':
         dependencies:
             '@giancarl021/cli-core': 1.0.5
             '@napi-rs/keyring': 1.2.0
@@ -1406,7 +1406,7 @@ snapshots:
 
     delayed-stream@1.0.0: {}
 
-    detect-libc@2.1.0: {}
+    detect-libc@2.1.1: {}
 
     dot-prop@10.0.0:
         dependencies:
@@ -1647,7 +1647,7 @@ snapshots:
 
     prebuild-install@7.1.3:
         dependencies:
-            detect-libc: 2.1.0
+            detect-libc: 2.1.1
             expand-template: 2.0.3
             github-from-package: 0.0.0
             minimist: 1.2.8

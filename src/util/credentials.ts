@@ -64,7 +64,9 @@ export async function getCredentials(
 
     const keyHash = hash(key);
 
-    const allCredentials = await listCredentialKeys(vault);
+    const allCredentials = (await listCredentialKeys(vault)).filter(
+        k => k !== key
+    );
 
     const availableCredentialsMessage = `Available credentials: ${
         allCredentials.length > 0 ? allCredentials.join(', ') : '<none>'
@@ -75,7 +77,7 @@ export async function getCredentials(
     if (!credentials) {
         try {
             // Remove invalid key secret if exists
-            vault.secrets.remove(key);
+            await vault.secrets.remove(key);
         } catch {
             // Do nothing if fails
         }
@@ -88,7 +90,7 @@ export async function getCredentials(
     let secret: string | undefined;
 
     try {
-        secret = vault.secrets.get(hash(keyHash));
+        secret = await vault.secrets.get(hash(keyHash));
     } catch (err) {
         // Do nothing if fails
     }
@@ -173,7 +175,7 @@ export async function setCredentials(
         isDelegated: credentials.isDelegated
     });
 
-    vault.secrets.set(hash(keyHash), credentials.auth.clientSecret);
+    await vault.secrets.set(hash(keyHash), credentials.auth.clientSecret);
 }
 
 export async function removeCredentials(
@@ -200,7 +202,7 @@ export async function removeCredentials(
     await vault.data.remove(`credentials.items.${keyHash}`);
 
     try {
-        vault.secrets.remove(hash(keyHash));
+        await vault.secrets.remove(hash(keyHash));
     } catch {
         // Do nothing if fails
     }
